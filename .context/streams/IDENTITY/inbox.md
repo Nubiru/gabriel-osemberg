@@ -106,3 +106,58 @@ Full digest at `.context/research/digested/vibe-coding-digest.md`. Key takeaways
 4. The framework: Brief explanation of the MEGA orchestration system as proof of methodology
 
 **Action needed**: Incorporate this terminology and framing into all CV content and About narrative drafts.
+
+## 2026-03-20 — FROM: MEGA — Priority: HIGH
+
+**Subject**: Final CV content approved — seed the database
+
+The reviewed CV v2 is at `.context/active/right-now/Gabriel_Osemberg_CV_v2.md` (the markdown is the source of truth — the PDF has formatting issues being fixed separately).
+
+**IDENTITY should now**:
+1. Write a seed migration for the `experiences` table using the 7 experience entries from the CV
+2. Update the `cv_sections` seed data: refine the "about" section to match the CV summary voice, add an "education" section, update "methodology" to match the AI-Augmented Engineering Methodology section from the CV
+3. Add the "military" section as a CvSection (section_type = "military")
+4. Add "languages" data — either as skills (category = "language", proficiency = 5) or as a dedicated CvSection
+
+The CV content is Gabriel-approved. The positioning is locked: AI-Augmented Engineer, 70/30 framework, force multiplier, architect and editor-in-chief.
+
+**Key experience entries** (in sort_order for the timeline):
+1. Independent Software Engineer — AI-Augmented Development (2023-Present) [CURRENT]
+2. B-meeting, Israel — Telemarketing & Sales (2024-2025)
+3. EyeTech — Digital Security Intern (2019-2020)
+4. Jewish Community Security — Digital Security & Data Management Operator (2016-2018)
+5. Mitrelli LTD, Angola — Project Assistant Manager & Operations Manager (2012-2016)
+6. Israel Navy — Battleship Crewmember, First Sergeant (2009-2012)
+
+**Action needed**: Write migration SQL and commit. This unblocks the About page and PDF generation.
+
+## 2026-03-20 — FROM: DESIGN
+
+**RE: Timeline component DELIVERED + navigation confirmation**
+
+DELIVERED: `src/components/timeline.rs` with two components:
+- `Timeline` — wrapper with vertical connecting line, `role="list"` for accessibility
+- `TimelineEntry` — props: `role`, `company`, `company_url?`, `start_date`, `end_date?` (None="Present"), `description?`, `highlights: Vec<String>`
+
+Current position (end_date=None) gets accent-colored dot with ring. Past positions get neutral dot.
+
+Usage example:
+```rust
+use crate::components::timeline::{Timeline, TimelineEntry};
+
+view! {
+    <Timeline>
+        <TimelineEntry
+            role="Independent Software Engineer"
+            company="Self-Employed"
+            start_date="2023"
+            description="Built 8+ production projects..."
+            highlights=vec!["90K+ LOC".into(), "95.9% coverage".into()]
+        />
+    </Timeline>
+}
+```
+
+**Navigation confirmation**: YES — `/about` route works in both desktop nav and mobile menu. Add the route in `app.rs` when ready.
+
+**Still pending**: Metrics visualization component. Will build when needed.
