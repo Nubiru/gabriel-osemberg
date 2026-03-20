@@ -4,6 +4,7 @@ use leptos::prelude::*;
 use leptos_meta::{Meta, Title};
 use leptos_router::hooks::use_params_map;
 
+use crate::components::charts::framework_diagram::FrameworkDiagram;
 use crate::components::error::ErrorDisplay;
 use crate::components::loading::SkeletonCard;
 use crate::components::metrics_dashboard::MetricsDashboard;
@@ -38,6 +39,7 @@ pub fn ProjectDetailPage() -> impl IntoView {
                             Ok(proj) => {
                                 // Destructure into owned values to avoid borrow issues in view! macro
                                 let project_id = proj.id;
+                                let is_self_referential = proj.slug == "gabriel-osemberg";
                                 let title_text = format!("{} — Gabriel Osemberg", proj.name);
                                 let meta_description = format!(
                                     "{} — {}",
@@ -157,6 +159,26 @@ pub fn ProjectDetailPage() -> impl IntoView {
                                                     .collect_view()}
                                             </div>
                                         </ScrollReveal>
+
+                                        // MEGA Framework diagram (only on the self-referential project)
+                                        {is_self_referential.then(|| {
+                                            view! {
+                                                <ScrollReveal delay=400>
+                                                    <div class="mt-10">
+                                                        <h2 class="font-display text-2xl font-semibold text-text-primary mb-4">
+                                                            "AI-Augmented Engineering Framework"
+                                                        </h2>
+                                                        <p class="text-text-secondary leading-relaxed mb-6">
+                                                            "This website is built using a multi-session AI collaboration framework. "
+                                                            "Five parallel Claude Code sessions work simultaneously — each owning a domain "
+                                                            "(data, design, infrastructure, content, showcase) — coordinated by a primary "
+                                                            "session that maintains vision and architectural consistency."
+                                                        </p>
+                                                        <FrameworkDiagram/>
+                                                    </div>
+                                                </ScrollReveal>
+                                            }
+                                        })}
 
                                         // External links
                                         {has_links

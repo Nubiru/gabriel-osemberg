@@ -10,6 +10,7 @@ pub mod mobile_menu;
 pub mod pages;
 pub mod project_card;
 pub mod project_detail;
+pub mod project_highlights;
 pub mod projects_page;
 pub mod scroll_reveal;
 pub mod skills;

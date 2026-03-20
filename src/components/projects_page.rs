@@ -6,6 +6,7 @@ use leptos_meta::{Meta, Title};
 use crate::components::error::ErrorDisplay;
 use crate::components::loading::SkeletonCard;
 use crate::components::project_card::ProjectCard;
+use crate::components::project_highlights::ProjectHighlights;
 use crate::components::scroll_reveal::ScrollReveal;
 use crate::components::ui::SectionHeading;
 use crate::server_fns::get_projects;
@@ -25,6 +26,11 @@ pub fn ProjectsPage() -> impl IntoView {
                 title="Projects"
                 subtitle="Real systems built with intention — from temporal artwork to production platforms.".to_string()
             />
+
+            // Aggregated stats highlight
+            <ScrollReveal>
+                <ProjectHighlights/>
+            </ScrollReveal>
 
             <Suspense fallback=move || {
                 view! {
