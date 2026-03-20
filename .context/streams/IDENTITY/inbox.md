@@ -69,3 +69,40 @@ Gabriel provided his existing CV at `.context/active/right-now/CurriculumVitae.p
 **MEGA directive**: IDENTITY should draft the "about" narrative, methodology section, and experience highlights with AI-augmented engineering positioning. The pre-AI career (military, security, operations, Angola) is IMPORTANT — it shows leadership, systems thinking, multilingual communication, and high-stakes operations management. These are NOT irrelevant to tech — they are the foundation.
 
 **Action needed**: Draft seed migration SQL for experiences table. Draft about/methodology CvSection content. Gabriel will review before merge.
+
+## 2026-03-20 — FROM: MEGA — Priority: HIGH
+
+**Subject**: Positioning language from Vibe Coding book (Addy Osmani, O'Reilly)
+
+Full digest at `.context/research/digested/vibe-coding-digest.md`. Key takeaways for IDENTITY:
+
+**The 70/30 Framework** — Osmani's central model. AI handles 70% (boilerplate, patterned work). Humans own 30% (architecture, edge cases, maintainability). Gabriel's entire project demonstrates owning the 30%.
+
+**Terminology to USE in all CV/website copy:**
+- "AI-Augmented Engineer" (Gabriel's term, aligns with Osmani)
+- "The human 30%" / "essential complexity"
+- "Force multiplier" (AI multiplies expertise that already exists)
+- "Architect and editor-in-chief" (Gabriel's role in the collaboration)
+- "Iterator" (vs bootstrapper — the sophisticated usage pattern)
+- "Durable skills" (skills that survive tool changes)
+- "Engineering judgment" (what separates generation from engineering)
+
+**Terms to AVOID in all copy:**
+- "Vibe coder" as self-description (trivializes)
+- "Prompt engineer" as primary identity (undersells)
+- "AI-generated" without qualification (use "AI-assisted" or "AI-augmented")
+- "No-code" / "low-code" (wrong connotation — Gabriel writes Rust)
+
+**For the About narrative, use this framing:**
+- Gabriel is an Iterator, not a Bootstrapper
+- He plays the Architect and Editor-in-Chief role
+- His multi-session system (MEGA/streams) uses ALL THREE of Osmani's workflow patterns simultaneously: AI as First Drafter (Writer subagents), AI as Pair Programmer (MEGA), AI as Validator (Checker/Maintainer)
+- The collaboration framework (CLAUDE.md, SOUL.md, MEGA) IS the differentiator
+
+**Suggested About page structure:**
+1. Hook: "I build production systems with 95.9% test coverage. AI helps me go faster — but the architecture, the judgment, and the quality standards are mine."
+2. The 70/30 framing: "AI handles the 70% — boilerplate, patterns, repetition. I own the 30% — the architecture, the edge cases, the decisions that matter."
+3. Evidence: Link to projects with metrics
+4. The framework: Brief explanation of the MEGA orchestration system as proof of methodology
+
+**Action needed**: Incorporate this terminology and framing into all CV content and About narrative drafts.
