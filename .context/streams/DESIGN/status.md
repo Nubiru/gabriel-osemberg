@@ -1,62 +1,50 @@
 # Stream: DESIGN
-**Phase**: 2 — BUILD
+**Phase**: 2 — BUILD (approaching POLISH)
 **Owner**: DESIGN stream orchestrator
 **Last Updated**: 2026-03-20
 **Readiness**: GREEN
 
 ## Current Work
 
-L0 COMPLETE. L1 COMPLETE (all items done). L2 mostly complete — hero, scroll reveals, microinteractions, timeline delivered. Remaining: L2.2 (page transitions), L2.5 metrics visualization.
+L0 COMPLETE. L1 COMPLETE. L2 COMPLETE. L3 partially complete (print stylesheet, custom scrollbar, reduced-motion done). Remaining L3: visual regression testing, cross-browser polish, accessibility audit, performance optimization — these require a running app.
 
 ## Build Progress
 
 ### L0 Foundation — COMPLETE
-- [x] L0.5: Module structure
-- [x] L0.1: Design tokens (OKLCH, @theme, 280+ lines)
-- [x] L0.2: Font system (3 variable fonts, ~102KB)
-- [x] L0.3: Dark/light theme (3-way toggle, localStorage, anti-FOUC)
-- [x] L0.4: Layout shell (Layout + Header + Footer)
-
 ### L1 Structure — COMPLETE
-- [x] L1.1: Responsive navigation (hamburger + slide-out drawer + ARIA + skip-to-content)
-- [x] L1.2: Responsive design system (verified via component breakpoints)
-- [x] L1.3: Loading & error states (Skeleton, SkeletonCard, Spinner, ErrorDisplay)
-- [x] L1.4: Base component library (SectionHeading, Badge, ExternalLink)
-- [x] Styled 404/500 error pages (NotFoundPage, ServerErrorPage — per INFRA request)
+### L2 Enhancement — COMPLETE
+- [x] L2.1 Scroll reveals, L2.2 Page transitions, L2.3 Microinteractions
+- [x] L2.4 Hero section, L2.5 Metrics + Skills + Timeline
 
-### L2 Enhancement — MOSTLY COMPLETE
-- [x] L2.1: Scroll-triggered reveals (ScrollReveal + ScrollRevealInit with IntersectionObserver)
-- [ ] L2.2: Page transitions (View Transitions API) — deferred, lower priority
-- [x] L2.3: Microinteractions (interactive-card, focus-ring, spin animation, hover/focus on all elements)
-- [x] L2.4: Hero section (staggered fade-in, stat highlights, gradient accents, CTAs)
-- [x] L2.5 (partial): Timeline component — DELIVERED to IDENTITY
-- [ ] L2.5 (partial): Metrics visualization — pending, build when needed
+### L3 Perfection — IN PROGRESS
+- [ ] L3.1: Visual regression testing (needs Playwright + running app)
+- [ ] L3.2: Cross-browser polish (needs running app)
+- [ ] L3.3: Accessibility audit (needs running app)
+- [ ] L3.4: Performance optimization (needs release build)
+- [x] L3.5: Print stylesheet
+- [x] L3.6: Custom scrollbar + reduced motion + prose styles
 
-### L3 Perfection
-- [ ] All items pending
+## Commits (all sessions)
 
-## Commits This Session
+1. `41189c8` — L0 design tokens, fonts, theme, layout shell
+2. `4d11602` — L1.1 responsive navigation
+3. `c5ac660` — L1.3+L1.4 loading states + base components
+4. `bda2dfb` — L2.4 hero + L2.1 scroll reveals + error pages
+5. `169411a` — L2.3 microinteractions + SHOWCASE fixes
+6. `cb34ba6` — L2.5 timeline component
+7. `8d63fe9` — L2.5 metrics + skills visualization
+8. `8129245` — L2.2 page transitions + reduced motion
+9. `cadfa16` — L3.5+L3.6 print stylesheet + custom scrollbar
 
-1. `bda2dfb` — feat(stream-design): L2.4 hero section + L2.1 scroll reveals + styled error pages
-2. `169411a` — feat(stream-design): L2.3 microinteractions + fix SHOWCASE compilation
-3. `cb34ba6` — feat(stream-design): L2.5 timeline component for experience entries
+## Component Inventory (14 files, ~1,400 lines)
 
-## Cross-Stream Communication
-
-**Delivered this session**:
-- → INFRA: Styled error pages + SEO pattern acknowledgment
-- → IDENTITY: Timeline component + navigation confirmation
-- Fixed SHOWCASE compilation (Leptos 0.8 ownership + clippy lint)
+layout.rs, theme_toggle.rs, mobile_menu.rs, hero.rs, pages.rs, loading.rs, error.rs, scroll_reveal.rs, timeline.rs, metrics.rs, skills.rs, ui.rs + (about_page.rs by IDENTITY, projects_page/project_card/project_detail by SHOWCASE)
 
 ## Blockers
 
-None.
+L3.1-L3.4 need running application to test. Blocked on INFRA deployment or manual `cargo leptos serve`.
 
 ## Metrics
 
-- Source files: 10 (layout, theme_toggle, mobile_menu, loading, error, ui, hero, pages, scroll_reveal, timeline)
-- Total component lines: ~900
-- Font files: 3 (~102KB)
-- Design token lines: ~290
-- Commits total: 6
-- Quality gates: All PASS
+- Component files: 14 | CSS lines: ~375 | Font files: 3 (~102KB)
+- Unit tests: 8 | Commits: 9 | Quality gates: All PASS

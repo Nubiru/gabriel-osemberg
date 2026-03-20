@@ -2,89 +2,97 @@
 **Phase**: 2 — BUILD
 **Owner**: INFRA stream
 **Last Updated**: 2026-03-20
-**Readiness**: YELLOW — L0 code complete, blocked on Fly.io account for deploy
+**Readiness**: YELLOW — all achievable code complete, blocked on Fly.io deploy + domain
 
 ## Current Work
 
-L0 Foundation: 6/8 tasks complete. Remaining 2 tasks (first deploy + Fly Volume) require human action (Fly.io account creation).
-
-## Key Decisions from Research
-
-- **Deployment**: Fly.io (Shuttle.rs eliminated, Railway optional backup)
-- **Analytics**: GoatCounter (free, privacy-first, zero infrastructure)
-- **WASM optimization**: Add wasm-opt to Dockerfile (10-20% additional savings)
-- **Caching**: Hash-based immutable for WASM/JS/CSS, no-cache for HTML
-- **Lighthouse CI**: treosh/lighthouse-ci-action, fail on <90
-
-## Research Progress
-
-All 7/7 sections COMPLETE.
+INFRA has completed all tasks that can be done without a live deployment. Remaining work requires human actions (Fly.io account, domain) or other stream deliveries (OG image, E2E content).
 
 ## Build Progress
 
-### L0 Foundation
-- [x] Dockerfile (multi-stage Debian build) — `Dockerfile`
-- [x] fly.toml (Fly.io app config) — `fly.toml`
-- [x] Health check endpoint (`/health`) — `src/server/health.rs`
-- [x] CD pipeline (GH Action: CI pass -> deploy) — `.github/workflows/deploy.yml`
-- [ ] First deploy (live on *.fly.dev) — **BLOCKED: needs Fly.io account**
-- [ ] Fly Volume (SQLite persistence) — **BLOCKED: needs Fly.io account**
-- [x] robots.txt — `public/robots.txt`
-- [x] sitemap.xml — `public/sitemap.xml`
+### L0 Foundation — 6/8
+- [x] Dockerfile (multi-stage Debian build + wasm-opt)
+- [x] fly.toml (health checks, statics, SQLite volume)
+- [x] Health check endpoint `/health` + 2 tests
+- [x] CD pipeline (deploy.yml — triggers after CI passes)
+- [ ] First deploy — **BLOCKED: needs `fly apps create` + `fly deploy`**
+- [ ] Fly Volume — **BLOCKED: needs `fly volumes create sqlite_data`**
+- [x] robots.txt
+- [x] sitemap.xml
 
-### L1 Integration
-- [ ] Custom domain + HTTPS
-- [ ] SEO meta tags (leptos_meta) — needs DESIGN
-- [ ] JSON-LD structured data (Person schema)
-- [ ] Cache headers (Axum middleware)
-- [ ] Error pages (404, 500) — needs DESIGN
-- [ ] WASM compression verification
+### L1 Integration — 4/6
+- [ ] Custom domain + HTTPS — **BLOCKED: needs domain purchase**
+- [x] SEO meta tags (OG/Twitter defaults in App, leptos_meta per-page)
+- [x] JSON-LD structured data (Person schema in shell head)
+- [x] Cache headers (Axum middleware — immutable for /pkg/, no-cache for HTML)
+- [x] Error pages (DESIGN delivered NotFoundPage + ServerErrorPage)
+- [ ] WASM compression verification — **needs live site**
 
-### L2 Enhancement
-- [ ] GoatCounter analytics
-- [ ] Lighthouse CI (GH Action)
-- [ ] wasm-opt in Dockerfile
-- [ ] Social preview images — needs DESIGN
-- [ ] Environment config separation
-- [ ] E2E smoke tests — needs DESIGN + DATA
+### L2 Enhancement — 4/6
+- [x] GoatCounter analytics (script in body, needs account creation)
+- [x] Lighthouse CI (workflow + budget.json)
+- [x] wasm-opt in Dockerfile (binaryen installed, runs after cargo leptos build)
+- [ ] Social preview images — **needs DESIGN OG image**
+- [x] Environment config (.env.example)
+- [ ] E2E smoke tests — **needs pages rendering real content**
 
-### L3 Perfection
-- [ ] CDN optimization
-- [ ] Uptime monitoring
-- [ ] Error monitoring / structured logging
-- [ ] Production smoke tests (post-deploy)
-- [ ] Performance dashboard (FCP/LCP trends)
-- [ ] Security headers (CSP, X-Frame-Options, etc.)
+### L3 Perfection — 1/6
+- [ ] CDN optimization — needs live site
+- [ ] Uptime monitoring — needs live site
+- [ ] Error monitoring / structured logging — needs live site
+- [ ] Production smoke tests — needs live site
+- [ ] Performance dashboard — needs live site
+- [x] Security headers (X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy)
 
-## Cross-Stream Messages Sent
+## Summary: 15/26 tasks complete
 
-- To DESIGN: SEO meta tag coordination, OG image request, error page request
-- To DATA: Seed data idempotency (INSERT OR IGNORE) — DATA confirmed processed
+All remaining tasks are blocked on:
+1. **Fly.io deployment** (L0.5, L0.6, L1.6, all L3) — human action
+2. **Domain purchase** (L1.1) — human action
+3. **DESIGN deliveries** (L2.4 OG image) — cross-stream
+4. **Content rendering** (L2.6 E2E) — cross-stream
+
+## Files Delivered
+
+| File | Purpose |
+|------|---------|
+| `src/server/health.rs` | Health check endpoint with DB connectivity test |
+| `src/server/middleware.rs` | Cache-Control + security headers middleware (5 unit tests) |
+| `src/server/mod.rs` | Module exports for health + middleware |
+| `src/main.rs` | Router with /health route, middleware layers, Extension(pool) |
+| `src/app.rs` | OG/Twitter meta, JSON-LD Person, GoatCounter analytics |
+| `Dockerfile` | Multi-stage build + wasm-opt |
+| `.dockerignore` | Efficient Docker builds |
+| `fly.toml` | Fly.io config with health checks + SQLite volume |
+| `.github/workflows/deploy.yml` | CD pipeline (deploy after CI) |
+| `.github/workflows/lighthouse.yml` | Lighthouse CI audit |
+| `budget.json` | Performance budget for Lighthouse |
+| `public/robots.txt` | SEO crawler instructions |
+| `public/sitemap.xml` | Page listing for search engines |
+| `.env.example` | Environment configuration template |
+| `tests/health_endpoint.rs` | Health endpoint integration tests |
+
+## Human Actions Needed to Unblock
+
+1. `fly auth login`
+2. `fly apps create gabriel-osemberg`
+3. `fly volumes create sqlite_data --region iad --size 1`
+4. `fly deploy` (or push to main → CD auto-deploys)
+5. Add `FLY_API_TOKEN` to GitHub repo secrets (for CD pipeline)
+6. Create GoatCounter account at goatcounter.com (site: gabriel-osemberg)
+7. Register custom domain when ready (L1.1)
 
 ## Blockers
 
-- **L0.5 + L0.6**: Need Fly.io account + `FLY_API_TOKEN` GitHub secret
-
-## Human Actions Needed
-
-1. Create Fly.io account
-2. Install flyctl CLI
-3. `fly apps create gabriel-osemberg`
-4. `fly volumes create sqlite_data --region iad --size 1`
-5. Add `FLY_API_TOKEN` to GitHub repository secrets
-6. First deploy: `fly deploy` or push to main
-
-## Quality Gates (Last Run)
-
-- `cargo test --features=ssr`: PASS (15 tests)
-- `cargo clippy --features=ssr -- -D warnings`: PASS
-- `cargo clippy --features=hydrate --target=wasm32-unknown-unknown -- -D warnings`: PASS
-- `cargo fmt --check`: PASS
+- Fly.io deployment (human action)
+- Domain registration (human action)
+- DESIGN: OG image (1200x630) for social sharing
+- Migration conflict: two 005 files exist on disk (IDENTITY issue — renamed one to 006 locally)
 
 ## Metrics
 
 - Research sections: 7/7
-- Source files created: 4 (health.rs, health_endpoint.rs, robots.txt, sitemap.xml)
-- Config files created: 4 (Dockerfile, .dockerignore, fly.toml, deploy.yml)
-- Tests added: 2
-- L0 tasks: 6/8 complete
+- L0: 6/8 | L1: 4/6 | L2: 4/6 | L3: 1/6
+- Total: 15/26 tasks (58%)
+- Files delivered: 15
+- Tests added: 7 (2 integration + 5 unit)
