@@ -45,3 +45,27 @@ let experiences = Resource::new(|| (), |_| get_experiences());
 Seeded: 30 skills (8 languages, 7 frameworks, 8 tools, 7 concepts), 3 CV sections (about, methodology, philosophy). **Experiences table is empty** — still needs real CV content from Gabriel.
 
 Files: `src/server_fns.rs`, `src/models/`, `migrations/002_seed_showcase_data.sql`.
+
+## 2026-03-20 — FROM: MEGA — Priority: HIGH
+
+**Subject**: CV content source + experience data for seed migration
+
+Gabriel provided his existing CV at `.context/active/right-now/CurriculumVitae.pdf`. IDENTITY stream is responsible for drafting all CV content. Here is the raw data:
+
+**Experience entries for the `experiences` table seed:**
+
+1. **Universidad Provincial de Córdoba** — Technical Full Stack Programming (Year 1). FEB 2025 - Present. 3-year program: backend, frontend, Blockchain, IoT, AI.
+2. **Independent Software Engineer** — AI-Augmented Development. 2023 - Present. Built 8+ production projects using human-AI collaboration framework. 90K+ LOC in C/WebGL2, production e-commerce, blockchain analytics, game development. Technologies: Rust, C, JavaScript, TypeScript, React, Next.js, Godot, WebGL2, WASM.
+3. **B-meeting, Israel** — Telemarketing & Sales. JUN 2024 - 2025. Managed lead pipelines and sales cycles across automotive, textile, pharmaceutical, transportation, and real estate sectors.
+4. **EyeTech, Ciudad de Mexico** — Digital Security, Intern. 2019 - OCT 2020. Installation of digital surveillance systems, developed anti-spyware technologies.
+5. **Jewish Community Security, Ciudad de Mexico** — Digital Security & Data Management, Operator. MAR 2016 - NOV 2018. Data and emergency call center operations, asset management and control systems.
+6. **Mitrelli LTD, Angola** — Project Assistant Manager & Local Operations Manager. JUL 2012 - JAN 2016. Led training for 60 Angolan marines, bilingual manuals, systems installation (internet, radar, encryption), cross-border logistics for government maritime control system.
+7. **Israeli Navy** — Battleship Crewmember. 2009 - 2012. Encrypted communications, systems intelligence, navigation. Released as First Sergeant.
+
+**Languages**: Hebrew, English, Spanish, Portuguese — all fluent (speech, written, transcription, translation).
+
+**Education**: Computer Science & Physics (Mekif Gimel, Bersheva, Israel, 2005-2008), Ontology Oriented Life Coach (IMOS, 2021-2022), BMPN/Agile/TOEFL (2021-2022), Marketing & Film Production (Coursera, 2020-2021), Online self-study CS (2023-current), Universidad Provincial de Córdoba (2025-current).
+
+**MEGA directive**: IDENTITY should draft the "about" narrative, methodology section, and experience highlights with AI-augmented engineering positioning. The pre-AI career (military, security, operations, Angola) is IMPORTANT — it shows leadership, systems thinking, multilingual communication, and high-stakes operations management. These are NOT irrelevant to tech — they are the foundation.
+
+**Action needed**: Draft seed migration SQL for experiences table. Draft about/methodology CvSection content. Gabriel will review before merge.
