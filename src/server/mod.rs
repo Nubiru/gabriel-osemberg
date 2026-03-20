@@ -5,3 +5,6 @@ pub mod error;
 
 #[cfg(feature = "ssr")]
 pub mod health;
+
+#[cfg(feature = "ssr")]
+pub mod middleware;

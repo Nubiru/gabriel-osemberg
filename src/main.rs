@@ -1,7 +1,7 @@
 #[cfg(feature = "ssr")]
 #[tokio::main]
 async fn main() {
-    use axum::{routing::get, Extension, Router};
+    use axum::{middleware, routing::get, Extension, Router};
     use leptos::logging::log;
     use leptos::prelude::*;
     use leptos_axum::{generate_route_list, LeptosRoutes};
@@ -9,6 +9,7 @@ async fn main() {
 
     use gabriel_osemberg::app::*;
     use gabriel_osemberg::server::health::health_handler;
+    use gabriel_osemberg::server::middleware::{cache_headers, security_headers};
 
     dotenvy::dotenv().ok();
 
@@ -46,6 +47,8 @@ async fn main() {
             },
         )
         .fallback(leptos_axum::file_and_error_handler(shell))
+        .layer(middleware::from_fn(cache_headers))
+        .layer(middleware::from_fn(security_headers))
         .layer(Extension(pool))
         .with_state(leptos_options);
 

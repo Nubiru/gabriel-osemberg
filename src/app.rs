@@ -5,6 +5,7 @@ use leptos_router::{
     ParamSegment, StaticSegment,
 };
 
+use crate::components::about_page::AboutPage;
 use crate::components::hero::Hero;
 use crate::components::layout::Layout;
 use crate::components::pages::NotFoundPage;
@@ -51,6 +52,19 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
                     })()"#
                 </script>
 
+                // JSON-LD structured data — Person schema for rich search results
+                <script type_="application/ld+json">
+                    r#"{
+                        "@context": "https://schema.org",
+                        "@type": "Person",
+                        "name": "Gabriel Osemberg",
+                        "jobTitle": "AI-Augmented Engineer",
+                        "url": "https://gabriel-osemberg.fly.dev",
+                        "knowsAbout": ["Rust", "WebAssembly", "C", "TypeScript", "React", "AI Engineering"],
+                        "sameAs": ["https://github.com/Nubiru"]
+                    }"#
+                </script>
+
                 <AutoReload options=options.clone() />
                 <HydrationScripts options/>
                 <MetaTags/>
@@ -72,12 +86,25 @@ pub fn App() -> impl IntoView {
         <Title text="Gabriel Osemberg — AI-Augmented Engineer"/>
         <Meta name="description" content="AI-Augmented Engineer building real systems with Rust, WebAssembly, C, and 95.9% test coverage. Portfolio showcasing 5 production projects."/>
 
+        // Open Graph defaults (pages can override with their own <Meta> tags)
+        <Meta property="og:type" content="website"/>
+        <Meta property="og:site_name" content="Gabriel Osemberg"/>
+        <Meta property="og:title" content="Gabriel Osemberg — AI-Augmented Engineer"/>
+        <Meta property="og:description" content="AI-Augmented Engineer building real systems with Rust, WebAssembly, C, and 95.9% test coverage."/>
+        <Meta property="og:url" content="https://gabriel-osemberg.fly.dev"/>
+
+        // Twitter card defaults
+        <Meta name="twitter:card" content="summary"/>
+        <Meta name="twitter:title" content="Gabriel Osemberg — AI-Augmented Engineer"/>
+        <Meta name="twitter:description" content="AI-Augmented Engineer building real systems with Rust, WebAssembly, C, and 95.9% test coverage."/>
+
         <Link rel="icon" href="/favicon.ico"/>
 
         <Router>
             <Layout>
                 <Routes fallback=|| view! { <NotFoundPage/> }>
                     <Route path=StaticSegment("") view=HomePage/>
+                    <Route path=StaticSegment("about") view=AboutPage/>
                     <Route path=StaticSegment("projects") view=ProjectsPage/>
                     <Route path=(StaticSegment("projects"), ParamSegment("slug")) view=ProjectDetailPage/>
                 </Routes>
