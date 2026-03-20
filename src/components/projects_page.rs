@@ -1,11 +1,12 @@
 //! Projects index page — displays all visible projects in a responsive grid.
 
 use leptos::prelude::*;
-use leptos_meta::Title;
+use leptos_meta::{Meta, Title};
 
 use crate::components::error::ErrorDisplay;
 use crate::components::loading::SkeletonCard;
 use crate::components::project_card::ProjectCard;
+use crate::components::scroll_reveal::ScrollReveal;
 use crate::components::ui::SectionHeading;
 use crate::server_fns::get_projects;
 
@@ -17,6 +18,7 @@ pub fn ProjectsPage() -> impl IntoView {
 
     view! {
         <Title text="Projects — Gabriel Osemberg"/>
+        <Meta name="description" content="Portfolio projects by Gabriel Osemberg — 90K+ lines of code, 95.9% test coverage, spanning Rust, C, TypeScript, and WebAssembly."/>
 
         <section class="py-12">
             <SectionHeading
@@ -43,8 +45,14 @@ pub fn ProjectsPage() -> impl IntoView {
                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             {data
                                                 .into_iter()
-                                                .map(|project| {
-                                                    view! { <ProjectCard project=project/> }
+                                                .enumerate()
+                                                .map(|(i, project)| {
+                                                    let delay = (i as u32) * 100;
+                                                    view! {
+                                                        <ScrollReveal delay=delay>
+                                                            <ProjectCard project=project/>
+                                                        </ScrollReveal>
+                                                    }
                                                 })
                                                 .collect_view()}
                                         </div>
