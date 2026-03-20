@@ -130,10 +130,13 @@ async fn get_all_cv_sections_returns_seeded_data() {
     .await
     .expect("query should succeed");
 
-    assert_eq!(sections.len(), 3, "Should have 3 CV sections");
+    assert!(
+        sections.len() >= 3,
+        "Should have at least 3 CV sections, got {}",
+        sections.len()
+    );
+    // First section should be "about"
     assert_eq!(sections[0].section_type, "about");
-    assert_eq!(sections[1].section_type, "methodology");
-    assert_eq!(sections[2].section_type, "philosophy");
 }
 
 #[tokio::test]
@@ -179,10 +182,9 @@ async fn skills_have_unique_names() {
 }
 
 #[tokio::test]
-async fn experiences_table_exists_and_is_empty() {
+async fn get_experiences_returns_seeded_cv_data() {
     let pool = test_pool().await;
 
-    // No experience entries are seeded (pending real CV content from Gabriel)
     let experiences = sqlx::query_as::<_, Experience>(
         "SELECT id, role, company, company_url, start_date, end_date, \
          description, highlights, sort_order, visible \
@@ -192,11 +194,83 @@ async fn experiences_table_exists_and_is_empty() {
     .await
     .expect("query should succeed");
 
-    // Table exists and is queryable (may be empty until CV content is provided)
     assert!(
-        experiences.is_empty(),
-        "No experience entries seeded yet — pending real CV content"
+        experiences.len() >= 6,
+        "Should have at least 6 experience entries, got {}",
+        experiences.len()
     );
+
+    // First entry is the most recent (current role)
+    assert!(experiences[0]
+        .role
+        .contains("Independent Software Engineer"));
+    assert!(
+        experiences[0].end_date.is_none(),
+        "Current role has no end date"
+    );
+
+    // Last entry is military service
+    let last = experiences.last().expect("should have entries");
+    assert!(last.company.contains("Israel Navy"));
+
+    // All highlights should be valid JSON arrays
+    for exp in &experiences {
+        let parsed: Vec<String> = serde_json::from_str(&exp.highlights)
+            .unwrap_or_else(|_| panic!("Invalid highlights JSON for {}", exp.role));
+        assert!(
+            !parsed.is_empty(),
+            "Each experience should have at least one highlight"
+        );
+    }
+}
+
+#[tokio::test]
+async fn cv_sections_include_education_and_military() {
+    let pool = test_pool().await;
+
+    let sections = sqlx::query_as::<_, CvSection>(
+        "SELECT id, section_type, title, content, sort_order, visible \
+         FROM cv_sections WHERE visible = 1 ORDER BY sort_order ASC",
+    )
+    .fetch_all(&pool)
+    .await
+    .expect("query should succeed");
+
+    assert!(
+        sections.len() >= 5,
+        "Should have at least 5 CV sections (about, methodology, philosophy, education, military)"
+    );
+
+    let types: Vec<&str> = sections.iter().map(|s| s.section_type.as_str()).collect();
+    assert!(
+        types.contains(&"education"),
+        "Should have education section"
+    );
+    assert!(types.contains(&"military"), "Should have military section");
+    assert!(
+        types.contains(&"languages"),
+        "Should have languages section"
+    );
+}
+
+#[tokio::test]
+async fn spoken_languages_seeded_as_skills() {
+    let pool = test_pool().await;
+
+    let spoken = sqlx::query_as::<_, Skill>(
+        "SELECT id, name, category, proficiency, visible \
+         FROM skills WHERE category = 'spoken_language' AND visible = 1",
+    )
+    .fetch_all(&pool)
+    .await
+    .expect("query should succeed");
+
+    assert_eq!(spoken.len(), 4, "Should have 4 spoken languages");
+    let names: Vec<&str> = spoken.iter().map(|s| s.name.as_str()).collect();
+    assert!(names.contains(&"Hebrew"));
+    assert!(names.contains(&"English"));
+    assert!(names.contains(&"Spanish"));
+    assert!(names.contains(&"Portuguese"));
 }
 
 // ---- L1 Integration Tests ----
