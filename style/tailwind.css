@@ -1,3 +1,271 @@
 @import "tailwindcss";
 
 @source "../src/**/*.rs";
+
+/* ============================================================
+   DESIGN TOKENS — gabriel-osemberg
+   ============================================================
+   All tokens use OKLCH for perceptual uniformity.
+   Dark mode is the default; light mode overrides below.
+   Tailwind v4 @theme generates both CSS variables AND utility classes.
+   ============================================================ */
+
+/* --- Font Faces (self-hosted, variable, latin subset) --- */
+
+@font-face {
+    font-family: "Space Grotesk";
+    font-style: normal;
+    font-weight: 300 700;
+    font-display: swap;
+    src: url("/fonts/space-grotesk-latin-variable.woff2") format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+        U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+        U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 300 700;
+    font-display: swap;
+    src: url("/fonts/inter-latin-variable.woff2") format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+        U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+        U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: "JetBrains Mono";
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url("/fonts/jetbrains-mono-latin-variable.woff2") format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+        U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+        U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* --- Design Tokens --- */
+
+@theme {
+    /* Typography — Font Families */
+    --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+    --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", "Fira Code",
+        monospace;
+
+    /* Typography — Font Sizes (modular scale ~1.25) */
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 1.875rem;
+    --text-4xl: 2.25rem;
+    --text-5xl: 3rem;
+    --text-6xl: 3.75rem;
+
+    /* Typography — Font Weights */
+    --font-weight-light: 300;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    /* Typography — Line Heights */
+    --leading-none: 1;
+    --leading-tight: 1.25;
+    --leading-snug: 1.375;
+    --leading-normal: 1.5;
+    --leading-relaxed: 1.625;
+
+    /* Typography — Letter Spacing */
+    --tracking-tighter: -0.05em;
+    --tracking-tight: -0.025em;
+    --tracking-normal: 0em;
+    --tracking-wide: 0.025em;
+
+    /* Spacing — base unit 0.25rem (4px) */
+    --spacing: 0.25rem;
+
+    /* Border Radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.375rem;
+    --radius-lg: 0.5rem;
+    --radius-xl: 0.75rem;
+    --radius-2xl: 1rem;
+    --radius-full: 9999px;
+
+    /* Shadows (dark-mode optimized — subtle on dark backgrounds) */
+    --shadow-sm: 0 1px 2px 0 oklch(0 0 0 / 0.15);
+    --shadow-md: 0 4px 6px -1px oklch(0 0 0 / 0.2),
+        0 2px 4px -2px oklch(0 0 0 / 0.15);
+    --shadow-lg: 0 10px 15px -3px oklch(0 0 0 / 0.25),
+        0 4px 6px -4px oklch(0 0 0 / 0.15);
+    --shadow-xl: 0 20px 25px -5px oklch(0 0 0 / 0.3),
+        0 8px 10px -6px oklch(0 0 0 / 0.15);
+
+    /* Breakpoints */
+    --breakpoint-sm: 40rem;
+    --breakpoint-md: 48rem;
+    --breakpoint-lg: 64rem;
+    --breakpoint-xl: 80rem;
+
+    /* Easing Curves */
+    --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+    --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
+
+    /* Animation Keyframes */
+    --animate-fade-in: fade-in 0.3s var(--ease-default);
+    --animate-fade-up: fade-up 0.4s var(--ease-fluid);
+    --animate-pulse-subtle: pulse-subtle 2s var(--ease-default) infinite;
+
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes fade-up {
+        from {
+            opacity: 0;
+            transform: translateY(8px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes pulse-subtle {
+        0%,
+        100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.7;
+        }
+    }
+
+    /* === COLORS ===
+       Dark mode is the DEFAULT (defined here in @theme).
+       Light mode overrides are in @layer base below.
+
+       Naming: surface-* (backgrounds), text-* (foreground),
+       accent (primary action), border-* (dividers/outlines),
+       state-* (success/warning/error)
+    */
+
+    /* Surfaces — dark mode (default) */
+    --color-surface-base: oklch(0.13 0.015 265);
+    --color-surface-raised: oklch(0.17 0.015 265);
+    --color-surface-overlay: oklch(0.21 0.015 265);
+    --color-surface-sunken: oklch(0.10 0.015 265);
+
+    /* Text — dark mode (default) */
+    --color-text-primary: oklch(0.93 0.008 265);
+    --color-text-secondary: oklch(0.72 0.015 265);
+    --color-text-muted: oklch(0.55 0.015 265);
+    --color-text-inverse: oklch(0.13 0.015 265);
+
+    /* Accent — cyan-teal (same in both modes, contrast-adjusted) */
+    --color-accent: oklch(0.68 0.16 195);
+    --color-accent-hover: oklch(0.75 0.16 195);
+    --color-accent-muted: oklch(0.68 0.08 195);
+
+    /* Borders — dark mode (default) */
+    --color-border-default: oklch(0.25 0.01 265);
+    --color-border-focus: oklch(0.68 0.16 195);
+    --color-border-subtle: oklch(0.20 0.01 265);
+
+    /* State colors */
+    --color-state-success: oklch(0.72 0.19 150);
+    --color-state-warning: oklch(0.78 0.16 80);
+    --color-state-error: oklch(0.65 0.22 25);
+    --color-state-info: oklch(0.68 0.16 195);
+}
+
+/* --- Dark Mode Variant (class-based toggle) --- */
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* --- Light Mode Overrides --- */
+
+@layer base {
+    /* Default: dark mode (matches @theme above) */
+    :root {
+        color-scheme: dark;
+    }
+
+    /* Light mode: override semantic tokens */
+    :root:not(.dark) {
+        color-scheme: light;
+
+        --color-surface-base: oklch(0.97 0.005 265);
+        --color-surface-raised: oklch(1.00 0.000 265);
+        --color-surface-overlay: oklch(0.99 0.003 265);
+        --color-surface-sunken: oklch(0.94 0.008 265);
+
+        --color-text-primary: oklch(0.18 0.015 265);
+        --color-text-secondary: oklch(0.40 0.015 265);
+        --color-text-muted: oklch(0.55 0.015 265);
+        --color-text-inverse: oklch(0.93 0.008 265);
+
+        --color-accent: oklch(0.55 0.18 195);
+        --color-accent-hover: oklch(0.48 0.18 195);
+        --color-accent-muted: oklch(0.55 0.10 195);
+
+        --color-border-default: oklch(0.85 0.01 265);
+        --color-border-focus: oklch(0.55 0.18 195);
+        --color-border-subtle: oklch(0.90 0.005 265);
+
+        --shadow-sm: 0 1px 2px 0 oklch(0 0 0 / 0.05);
+        --shadow-md: 0 4px 6px -1px oklch(0 0 0 / 0.08),
+            0 2px 4px -2px oklch(0 0 0 / 0.05);
+        --shadow-lg: 0 10px 15px -3px oklch(0 0 0 / 0.1),
+            0 4px 6px -4px oklch(0 0 0 / 0.05);
+        --shadow-xl: 0 20px 25px -5px oklch(0 0 0 / 0.12),
+            0 8px 10px -6px oklch(0 0 0 / 0.05);
+    }
+
+    /* Base typography */
+    html {
+        font-family: var(--font-body);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Smooth color transitions for theme switching */
+    *,
+    *::before,
+    *::after {
+        transition-property: color, background-color, border-color, outline-color;
+        transition-duration: 0ms;
+        transition-timing-function: var(--ease-default);
+    }
+
+    /* Only animate when transitioning themes (not on page load) */
+    html.theme-transitioning *,
+    html.theme-transitioning *::before,
+    html.theme-transitioning *::after {
+        transition-duration: 300ms;
+    }
+
+    /* Screen reader only utility */
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+    }
+}
