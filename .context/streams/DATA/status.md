@@ -1,18 +1,14 @@
 # Stream: DATA
-**Phase**: 0 — RESEARCH (7/7 COMPLETE — ready to advance to ROADMAP/BUILD)
+**Phase**: 2 — BUILD (L0 Foundation complete)
 **Owner**: DATA stream orchestrator
 **Last Updated**: 2026-03-20
 **Readiness**: GREEN
 
 ## Current Work
 
-Phase 0 research complete. All 7 sections written. Cross-stream messages sent to SHOWCASE, IDENTITY, and MEGA. Awaiting next session to advance to Phase 1 (Roadmap refinement) or directly to Phase 2 (Build).
+L0 Foundation is **COMPLETE**. All models, migrations, seed data, server functions, and tests are built and passing. ADR-003 (SQLite) accepted by MEGA.
 
-**Key decisions documented**:
-- SQLite recommended (ADR pending from MEGA)
-- Context-based pool sharing (`provide_context` + `use_context`)
-- Hybrid metrics: snapshot for base data, cached GitHub API for live stats
-- In-database caching (no Redis needed)
+**Next**: L1 Integration (ProjectMetric, TechTag, GitHub API).
 
 ## Research Progress
 
@@ -28,18 +24,18 @@ Phase 0 research complete. All 7 sections written. Cross-stream messages sent to
 
 ## Build Progress
 
-_(Detailed roadmap in research/005-roadmap.md — L0 has 20 tasks)_
-
-### L0 Foundation
-- [ ] Add dependencies (sqlx, serde, thiserror, chrono, dotenvy)
-- [ ] Create 4 model structs (Project, Experience, Skill, CvSection)
-- [ ] Create database error type
-- [ ] Create migrations (schema + seed data)
-- [ ] Set up DB pool in main.rs with `provide_context`
-- [ ] Create 5 server functions (CRUD reads)
-- [ ] Write unit + integration tests
-- [ ] Run `cargo sqlx prepare` for offline mode
-- [ ] Fix `.unwrap()` calls in main.rs
+### L0 Foundation — COMPLETE
+- [x] Add dependencies (sqlx, serde, thiserror, dotenvy) — done by DESIGN/MEGA
+- [x] Create 4 model structs (Project, Experience, Skill, CvSection) — done by MEGA
+- [x] Create database error type (DataError with thiserror) — done by MEGA
+- [x] Create migration 001_create_tables.sql — done by MEGA
+- [x] Create migration 002_seed_showcase_data.sql — 5 projects, 30 skills, 3 CV sections
+- [x] Set up DB pool in main.rs with `provide_context` — done by MEGA
+- [x] Create `src/server_fns.rs` with 5 server functions (get_projects, get_project_by_slug, get_experiences, get_skills, get_cv_sections)
+- [x] Write 8 unit tests (model serialization roundtrips)
+- [x] Write 8 integration tests (database queries with in-memory SQLite)
+- [x] Fix `.unwrap()` calls in main.rs — done by MEGA (uses .expect())
+- [x] Add .db files to .gitignore
 
 ### L1 Integration
 - [ ] ProjectMetric + TechTag models
@@ -57,19 +53,28 @@ _(Detailed roadmap in research/005-roadmap.md — L0 has 20 tasks)_
 - [ ] Rate limiting
 - [ ] Data freshness monitoring
 
-## Cross-Stream Messages Sent
+## Quality Gates (L0)
 
-- → SHOWCASE: Model fields proposed, requested field confirmation
-- → IDENTITY: Model fields proposed, requested CV content text
-- → MEGA: SQLite recommendation, requesting ADR-003
+- `cargo build --features ssr` — PASS
+- `cargo build --features hydrate` — PASS
+- `cargo clippy --features ssr -- -D warnings` — PASS
+- `cargo fmt --check` — PASS
+- `cargo test --features ssr` — 16/16 PASS (8 unit + 8 integration)
+
+## Cross-Stream Dependencies
+
+- → SHOWCASE: L0 server functions DELIVERED (get_projects, get_project_by_slug)
+- → IDENTITY: L0 server functions DELIVERED (get_experiences, get_skills, get_cv_sections)
+- ← MEGA: ADR-003 SQLite ACCEPTED
+- ← IDENTITY: CV content text still PENDING (experiences table empty)
 
 ## Blockers
 
-None. DATA is foundational and has no upstream dependencies for L0.
+None.
 
 ## Metrics
 
 - Research sections: 7/7
-- Tests: 0 (build not started)
-- Source files: 0 (build not started)
-- Commits: 0 (build not started)
+- Tests: 16 passing (8 unit + 8 integration)
+- Source files: 7 (4 models + server_fns + server/error + server/mod)
+- Migrations: 2 (schema + seed data)

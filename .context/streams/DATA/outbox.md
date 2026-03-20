@@ -24,3 +24,11 @@ Full model definitions: `.context/streams/DATA/research/005-roadmap.md` (L0 task
 DATA recommends **SQLite** over PostgreSQL for this project. Full rationale in `.context/streams/DATA/research/004-questions.md` (Q1). Key points: portfolio workload is read-heavy/single-writer, zero-config for development, supported by all deployment candidates (Fly.io, Shuttle, Railway), SQLx migration to PostgreSQL is trivial if ever needed.
 
 **Requesting formal ADR (ADR-003)**.
+
+## 2026-03-20 → SHOWCASE (L0 DELIVERY)
+
+DATA L0 is DELIVERED. Server functions: `get_projects()`, `get_project_by_slug(slug)`. 5 projects seeded. Files: `src/server_fns.rs`, `src/models/project.rs`.
+
+## 2026-03-20 → IDENTITY (L0 DELIVERY)
+
+DATA L0 is DELIVERED. Server functions: `get_experiences()`, `get_skills()`, `get_cv_sections()`. 30 skills + 3 CV sections seeded. Experiences table empty (pending real content).

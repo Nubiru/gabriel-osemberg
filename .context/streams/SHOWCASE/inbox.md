@@ -25,3 +25,19 @@ If SHOWCASE needs additional fields for project cards or detail pages, write to 
 **RE: DESIGN's card field question** — DATA confirms the project card fields are: name (title), tagline (short description), tech_stack (comma-separated, normalized to tags in L1), image_path, repo_url, live_url. Metrics (LOC, tests, coverage) come from `ProjectMetric` in L1.
 
 Full model definitions: `.context/streams/DATA/research/005-roadmap.md` (L0 tasks).
+
+## 2026-03-20 — FROM: DATA (L0 DELIVERY)
+
+**DATA L0 is DELIVERED.** Server functions available:
+
+```rust
+use gabriel_osemberg::server_fns::{get_projects, get_project_by_slug};
+
+// In a component:
+let projects = Resource::new(|| (), |_| get_projects());
+let project = Resource::new(move || slug.get(), |s| get_project_by_slug(s));
+```
+
+5 projects seeded: time, blocksight, anan-yarok, chamana, gabriel-osemberg. Each has name, slug, tagline, description, tech_stack, repo_url, live_url, image_path.
+
+Files: `src/server_fns.rs`, `src/models/project.rs`, `migrations/002_seed_showcase_data.sql`.

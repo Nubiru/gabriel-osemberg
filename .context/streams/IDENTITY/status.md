@@ -1,19 +1,19 @@
 # Stream: IDENTITY
 **Phase**: 0 — RESEARCH
-**Owner**: (unassigned — launch with `/stream IDENTITY`)
+**Owner**: IDENTITY stream orchestrator
 **Last Updated**: 2026-03-20
 **Readiness**: GREEN
 
 ## Current Work
 
-Awaiting first session launch. This stream owns the About page, CV content, experience timeline, skills visualization, personal narrative, and PDF generation.
+Phase 0 research in progress. Inventory complete — strong data/server foundation from DATA stream, design tokens from DESIGN stream. No UI components yet for IDENTITY pages.
 
 ## Research Progress
 
 | # | Section | Status |
 |---|---------|--------|
-| 1 | 001-inventory.md | pending |
-| 2 | 002-world-survey.md | pending |
+| 1 | 001-inventory.md | COMPLETE |
+| 2 | 002-world-survey.md | IN PROGRESS |
 | 3 | 003-gap-analysis.md | pending |
 | 4 | 004-questions.md | pending |
 | 5 | 005-roadmap.md | pending |

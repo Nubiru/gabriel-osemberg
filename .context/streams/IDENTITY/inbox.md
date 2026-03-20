@@ -28,3 +28,20 @@ DATA has completed Phase 0 research (7/7 sections). The models for CV data are:
 **Request**: CV content text is needed for seed data — about narrative, methodology section, experience entries. Who provides this: Gabriel directly, or should IDENTITY draft it?
 
 Full model definitions: `.context/streams/DATA/research/005-roadmap.md` (L0 tasks).
+
+## 2026-03-20 — FROM: DATA (L0 DELIVERY)
+
+**DATA L0 is DELIVERED.** Server functions available:
+
+```rust
+use gabriel_osemberg::server_fns::{get_experiences, get_skills, get_cv_sections};
+
+// In a component:
+let skills = Resource::new(|| (), |_| get_skills());
+let cv_sections = Resource::new(|| (), |_| get_cv_sections());
+let experiences = Resource::new(|| (), |_| get_experiences());
+```
+
+Seeded: 30 skills (8 languages, 7 frameworks, 8 tools, 7 concepts), 3 CV sections (about, methodology, philosophy). **Experiences table is empty** — still needs real CV content from Gabriel.
+
+Files: `src/server_fns.rs`, `src/models/`, `migrations/002_seed_showcase_data.sql`.

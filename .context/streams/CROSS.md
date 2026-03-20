@@ -6,15 +6,15 @@
 
 | From | To | What's Needed | Layer | Status | Notes |
 |------|----|---------------|-------|--------|-------|
-| SHOWCASE | DATA | Project data server functions (get_projects, get_project_by_slug) | L0 | ROUTED | DATA research complete, model proposed, message in SHOWCASE inbox |
-| SHOWCASE | DESIGN | Card component, layout shell, design tokens | L0 | OPEN | SHOWCASE builds on DESIGN's foundation |
-| IDENTITY | DATA | CV content server functions (get_experiences, get_skills, get_cv_sections) | L0 | ROUTED | DATA research complete, model proposed, message in IDENTITY inbox |
-| IDENTITY | DESIGN | Timeline component, layout shell, design tokens | L0 | OPEN | IDENTITY builds on DESIGN's foundation |
-| INFRA | DATA | Database deployment config (SQLite) | L1 | ROUTED | DATA recommends SQLite, ADR pending from MEGA |
+| SHOWCASE | DATA | Project data server functions (get_projects, get_project_by_slug) | L0 | DELIVERED | Files: src/server_fns.rs, src/models/project.rs. 5 projects seeded. |
+| SHOWCASE | DESIGN | Card component, layout shell, design tokens | L0 | DELIVERED | Layout shell + design tokens + theme delivered. Card component is L2.5 (later). Files: style/tailwind.css, src/components/layout.rs |
+| IDENTITY | DATA | CV content server functions (get_experiences, get_skills, get_cv_sections) | L0 | DELIVERED | Files: src/server_fns.rs, src/models/. 30 skills + 3 CV sections seeded. Experiences empty (pending content). |
+| IDENTITY | DESIGN | Timeline component, layout shell, design tokens | L0 | DELIVERED | Layout shell + design tokens + theme delivered. Timeline component is L2.5 (later). Files: style/tailwind.css, src/components/layout.rs |
+| INFRA | DATA | Database deployment config (SQLite) | L1 | DELIVERED | ADR-003 accepted. SQLite with SQLx. DB auto-created on server start. |
 | INFRA | ALL | Working build for deployment | L0 | OPEN | Need compilable project to deploy |
 | IDENTITY | SHOWCASE | Project summary data for CV PDF | L2 | OPEN | PDF includes project highlights |
 | DATA | IDENTITY | CV content text for seed data (about, experience, skills) | L0 | ROUTED | DATA needs text content, message in IDENTITY inbox |
-| DATA | MEGA | ADR-003: SQLite as database | L0 | ROUTED | DATA recommends SQLite, awaiting formal ADR |
+| DATA | MEGA | ADR-003: SQLite as database | L0 | RESOLVED | ADR-003 accepted in docs/DECISIONS.md |
 
 ### Status Key
 
