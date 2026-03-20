@@ -1,0 +1,28 @@
+{
+  "meta": {
+    "description": "Attribution database — every human whose work feeds this project",
+    "last_updated": "{DATE}",
+    "total_contributors": 0
+  },
+  "contributors": [
+    {
+      "id": "{CONTRIBUTOR_ID}",
+      "name": "{CONTRIBUTOR_NAME}",
+      "category": ["{ROLE}"],
+      "contributions": [
+        {
+          "work": "{WORK_TITLE}",
+          "description": "{WHAT_THEY_CONTRIBUTED}",
+          "year": "{YEAR}"
+        }
+      ],
+      "references": [
+        {
+          "file": "{SOURCE_FILE_PATH}",
+          "line": "{LINE_NUMBER}",
+          "note": "{HOW_THEIR_WORK_IS_USED}"
+        }
+      ]
+    }
+  ]
+}

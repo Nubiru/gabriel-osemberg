@@ -1,0 +1,39 @@
+# AI collaboration context (local to each developer)
+.context/active/
+.context/archive/
+
+# Rust / Cargo
+target/
+**/*.rs.bk
+*.pdb
+
+# Build artifacts
+build*/
+*.o
+*.obj
+*.exe
+
+# Tailwind generated output
+style/output.css
+
+# Node (for Tailwind / Playwright)
+node_modules/
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Library (books — large binaries, not for git)
+.context/library/inbox/
+
+# Secrets
+.env
+.env.*
+credentials*

@@ -1,0 +1,39 @@
+{
+  "version": "1.0",
+  "description": "Structured catalog of reference materials",
+  "entries": [
+    {
+      "id": "show-your-work",
+      "title": "Show Your Work!",
+      "author": "Austin Kleon",
+      "format": "epub",
+      "path": ".context/library/inbox/Show Your Work!.epub",
+      "date_added": "2026-03-20",
+      "status": "inbox",
+      "relevance": "Principles for sharing creative process publicly — directly applicable to building visibility as a developer through open work and daily sharing habits",
+      "mining_priority": "high"
+    },
+    {
+      "id": "success-in-programming",
+      "title": "Success in Programming: How to Gain Recognition, Power, and Influence Through Personal Branding",
+      "author": "Frederic Harper",
+      "format": "pdf",
+      "path": ".context/library/inbox/Success in Programming_ How to Gain Recognition, Power, and Influence Through Personal Branding.pdf",
+      "date_added": "2026-03-20",
+      "status": "inbox",
+      "relevance": "Developer-specific personal branding guide covering recognition, tribe-building, and career growth — tactical complement to Show Your Work",
+      "mining_priority": "high"
+    },
+    {
+      "id": "vibe-coding",
+      "title": "Vibe Coding: The Future of Programming",
+      "author": "Addy Osmani",
+      "format": "epub",
+      "path": ".context/library/inbox/Vibe Coding_ The Future of Programming.epub",
+      "date_added": "2026-03-20",
+      "status": "inbox",
+      "relevance": "O'Reilly guide on AI-assisted intent-driven development workflows — directly relevant to how this project uses Claude Code and AI collaboration patterns",
+      "mining_priority": "high"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "gabriel-osemberg",
+  "version": "1.0.0",
+  "description": "A complete, project-agnostic framework for structured human-AI software development. Extracted from a battle-tested methodology running 8+ parallel AI sessions, 300+ tests, and 85,000+ lines of code across 16 knowledge domains. This boilerplate gives you the coordination protocols, quality gates, slash commands, and philosophical foundations that make AI a genuine development partner rather than an autocomplete tool.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "tailwindcss": "^4.2.2"
+  }
+}
