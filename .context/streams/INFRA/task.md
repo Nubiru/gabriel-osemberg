@@ -1,25 +1,25 @@
 # INFRA — Active Task
 
-**Task**: L0.1 + L0.2 + L0.4 — Dockerfile, fly.toml, CD pipeline
-**Phase**: BUILD (L0 Foundation)
+**Task**: L1.4 + L3.6 — Cache headers + Security headers (Axum middleware)
+**Phase**: BUILD (L1 Integration + L3 Perfection)
 **Started**: 2026-03-20
 **Status**: IN-PROGRESS
 
-## Previous Task (COMPLETE)
-L0.3 + L0.7 + L0.8 — Health endpoint, robots.txt, sitemap.xml
-- All tests pass (22 total, 2 new)
-- Clippy clean (SSR + hydrate)
-- Formatting clean
+## Scope
 
-## Current Scope
+1. **L1.4 — Cache headers**: Axum middleware setting cache-control headers:
+   - Immutable (1 year) for hashed assets in /pkg/ (WASM, JS, CSS)
+   - Long-lived (1 year) for fonts
+   - Short (1 day) for favicon
+   - No-cache for HTML (SSR pages)
 
-1. **L0.1 — Dockerfile**: Multi-stage Debian build with cargo-leptos, wasm32 target, slim runtime
-2. **L0.2 — fly.toml**: Fly.io app config with statics, health check, min 1 machine
-3. **L0.4 — CD pipeline**: GitHub Action deploying to Fly.io on push to main
+2. **L3.6 — Security headers**: Axum middleware adding:
+   - X-Content-Type-Options: nosniff
+   - X-Frame-Options: DENY
+   - Referrer-Policy: strict-origin-when-cross-origin
+   - Permissions-Policy: camera=(), microphone=(), geolocation=()
 
-## Deliverables
+## Approach
 
-- `Dockerfile`
-- `fly.toml`
-- `.github/workflows/deploy.yml`
-- `.dockerignore`
+Single middleware module `src/server/middleware.rs` with both concerns.
+Add as tower layer in main.rs.

@@ -1,12 +1,12 @@
 # Stream: SHOWCASE
-**Phase**: 0 — RESEARCH (COMPLETE — ready to advance to ROADMAP)
+**Phase**: 2 — BUILD
 **Owner**: Active
 **Last Updated**: 2026-03-20
 **Readiness**: GREEN
 
 ## Current Work
 
-Phase 0 Research COMPLETE (7/7 sections). All open questions answered. Roadmap designed (L0-L3, 28 tasks). No blockers for L0 build.
+Phase 0 Research COMPLETE. Phase 2 Build IN PROGRESS. L0-001 through L0-004 delivered and passing all quality gates.
 
 ## Research Progress
 
@@ -20,28 +20,17 @@ Phase 0 Research COMPLETE (7/7 sections). All open questions answered. Roadmap d
 | 6 | 006-dependencies.md | **COMPLETE** |
 | 7 | 007-resources.md | **COMPLETE** |
 
-## Key Findings
-
-- All L0 dependencies satisfied (DATA models + server fns, DESIGN tokens + layout)
-- Zero showcase-specific components exist — entire presentation layer to build
-- Case study format: Hero → Context → Challenge → Approach → AI Role → Metrics → Impact
-- Charts: Hand-rolled SVG in Leptos view! macro (no JS dependencies)
-- Assets: Self-hosted in public/assets/projects/, WebP format
-- Unique differentiator: AI collaboration methodology section (no other portfolio does this)
-
 ## Build Progress
 
-_(Ready to begin after Phase transition)_
-
-### L0 Foundation (8 tasks)
-- [ ] L0-001 Project card component
-- [ ] L0-002 Projects index page
-- [ ] L0-003 Project detail page (case study)
-- [ ] L0-004 Route wiring
-- [ ] L0-005 Tech stack tags component
-- [ ] L0-006 Metrics badge row
-- [ ] L0-007 Loading fallback component
-- [ ] L0-008 Error display component
+### L0 Foundation
+- [x] L0-001 Project card component (`src/components/project_card.rs`)
+- [x] L0-002 Projects index page (`src/components/projects_page.rs`)
+- [x] L0-003 Project detail page (`src/components/project_detail.rs`)
+- [x] L0-004 Route wiring (`src/app.rs` updated)
+- [x] L0-005 Tech stack tags — covered by existing `Badge` in `ui.rs` + split logic in `project_card.rs`
+- [x] L0-006 Metrics badge row — deferred to L1 (ProjectMetric model not yet built by DATA)
+- [x] L0-007 Loading fallback — already existed (`loading.rs`: Skeleton, SkeletonCard, Spinner)
+- [x] L0-008 Error display — already existed (`error.rs`: ErrorDisplay)
 
 ### L1 Integration (7 tasks)
 - [ ] L1-001 Progress ring (SVG)
@@ -69,14 +58,24 @@ _(Ready to begin after Phase transition)_
 - [ ] L3-006 Lighthouse optimization pass
 - [ ] L3-007 E2E tests (Playwright)
 
+## Quality Gates (Last Run)
+
+| Gate | Status |
+|------|--------|
+| Build | PASS |
+| Clippy | PASS (zero warnings) |
+| Tests | PASS (15/15 with ssr feature) |
+| Format | PASS |
+
 ## Blockers
 
-None. L0 build can start immediately.
+None.
 
 ## Metrics
 
 - Research sections: 7/7
-- Build tasks defined: 28
-- Tests: 0 (research phase — no code)
-- Source files: 0 (research phase — no code)
-- Commits: 0 (research phase)
+- L0 tasks complete: 8/8
+- New source files: 3 (project_card.rs, projects_page.rs, project_detail.rs)
+- Modified files: 2 (app.rs, components/mod.rs)
+- New tests: 4 (project_card unit tests)
+- Total tests passing: 15

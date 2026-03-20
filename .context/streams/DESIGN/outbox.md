@@ -5,3 +5,9 @@ L0 delivery timeline + project card field requirements question. See SHOWCASE/in
 
 ## 2026-03-20 — TO: IDENTITY
 L0 delivery timeline + timeline component data shape question. See IDENTITY/inbox.md.
+
+## 2026-03-20 — TO: IDENTITY
+Timeline component delivered + nav confirmation. See IDENTITY/inbox.md.
+
+## 2026-03-20 — TO: INFRA
+Error pages delivered + SEO pattern acknowledged. See INFRA/inbox.md.
