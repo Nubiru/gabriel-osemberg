@@ -1,51 +1,33 @@
 # Stream: DATA
-**Phase**: 2 — BUILD (L0 Foundation complete)
+**Phase**: 2 — BUILD (L0 + L1 complete)
 **Owner**: DATA stream orchestrator
 **Last Updated**: 2026-03-20
 **Readiness**: GREEN
 
 ## Current Work
 
-L0 Foundation is **COMPLETE**. All models, migrations, seed data, server functions, and tests are built and passing. ADR-003 (SQLite) accepted by MEGA.
+L0 Foundation + L1 Integration **COMPLETE**. All core models, metrics, tags, server functions, and tests built and passing.
 
-**Next**: L1 Integration (ProjectMetric, TechTag, GitHub API).
-
-## Research Progress
-
-| # | Section | Status |
-|---|---------|--------|
-| 1 | 001-inventory.md | COMPLETE |
-| 2 | 002-world-survey.md | COMPLETE |
-| 3 | 003-gap-analysis.md | COMPLETE |
-| 4 | 004-questions.md | COMPLETE |
-| 5 | 005-roadmap.md | COMPLETE |
-| 6 | 006-dependencies.md | COMPLETE |
-| 7 | 007-resources.md | COMPLETE |
+**Next**: L2 Enhancement (search, filtering, AiCollaboration model) or await SHOWCASE/IDENTITY requests.
 
 ## Build Progress
 
 ### L0 Foundation — COMPLETE
-- [x] Add dependencies (sqlx, serde, thiserror, dotenvy) — done by DESIGN/MEGA
-- [x] Create 4 model structs (Project, Experience, Skill, CvSection) — done by MEGA
-- [x] Create database error type (DataError with thiserror) — done by MEGA
-- [x] Create migration 001_create_tables.sql — done by MEGA
-- [x] Create migration 002_seed_showcase_data.sql — 5 projects, 30 skills, 3 CV sections
-- [x] Set up DB pool in main.rs with `provide_context` — done by MEGA
-- [x] Create `src/server_fns.rs` with 5 server functions (get_projects, get_project_by_slug, get_experiences, get_skills, get_cv_sections)
-- [x] Write 8 unit tests (model serialization roundtrips)
-- [x] Write 8 integration tests (database queries with in-memory SQLite)
-- [x] Fix `.unwrap()` calls in main.rs — done by MEGA (uses .expect())
-- [x] Add .db files to .gitignore
+- [x] Dependencies, models, migrations, pool setup, server functions, tests
 
-### L1 Integration
-- [ ] ProjectMetric + TechTag models
-- [ ] GitHub API integration with caching
-- [ ] Aggregation server functions
+### L1 Integration — COMPLETE
+- [x] ProjectMetric model + TechTag model + ProjectTag junction
+- [x] Migration 003_add_metrics_and_tags.sql (tables + indexes)
+- [x] Migration 004_seed_metrics_and_tags.sql (25 tech tags, 10 metrics, project associations) — uses INSERT OR IGNORE
+- [x] Server functions: get_project_metrics, get_project_tags, get_projects_by_tag, get_aggregated_stats
+- [x] AggregatedStats struct (total_projects, total_loc, total_tests, languages_count)
+- [x] 4 unit tests (new models) + 5 integration tests (new queries)
 
 ### L2 Enhancement
-- [ ] Search and filtering
-- [ ] Data validation
-- [ ] Metrics aggregation
+- [ ] AiCollaboration model (per SHOWCASE request)
+- [ ] Search and filtering (get_projects_filtered, search_projects)
+- [ ] Data validation module
+- [ ] get_skills_by_category server function
 
 ### L3 Perfection
 - [ ] Query optimization
@@ -53,20 +35,26 @@ L0 Foundation is **COMPLETE**. All models, migrations, seed data, server functio
 - [ ] Rate limiting
 - [ ] Data freshness monitoring
 
-## Quality Gates (L0)
+## Quality Gates (L1)
 
 - `cargo build --features ssr` — PASS
 - `cargo build --features hydrate` — PASS
 - `cargo clippy --features ssr -- -D warnings` — PASS
 - `cargo fmt --check` — PASS
-- `cargo test --features ssr` — 16/16 PASS (8 unit + 8 integration)
+- `cargo test --features ssr` — 27/27 PASS (12 unit + 13 integration + 2 health)
+
+## Inbox Processed
+
+- SHOWCASE: ProjectMetric fields incorporated into L1. AiCollaboration deferred to L2.
+- INFRA: Seed idempotency explained (SQLx tracks migrations). New migrations use INSERT OR IGNORE.
 
 ## Cross-Stream Dependencies
 
-- → SHOWCASE: L0 server functions DELIVERED (get_projects, get_project_by_slug)
-- → IDENTITY: L0 server functions DELIVERED (get_experiences, get_skills, get_cv_sections)
-- ← MEGA: ADR-003 SQLite ACCEPTED
+- → SHOWCASE: L0 + L1 server functions DELIVERED
+- → IDENTITY: L0 server functions DELIVERED
+- → INFRA: Idempotency concern RESOLVED
 - ← IDENTITY: CV content text still PENDING (experiences table empty)
+- ← SHOWCASE: AiCollaboration model requested for L2
 
 ## Blockers
 
@@ -75,6 +63,6 @@ None.
 ## Metrics
 
 - Research sections: 7/7
-- Tests: 16 passing (8 unit + 8 integration)
-- Source files: 7 (4 models + server_fns + server/error + server/mod)
-- Migrations: 2 (schema + seed data)
+- Tests: 27 passing (12 unit + 13 integration + 2 health)
+- Source files: 10 (7 models + server_fns + server/error + server/mod)
+- Migrations: 4 (schema + seed + metrics/tags + seed metrics/tags)

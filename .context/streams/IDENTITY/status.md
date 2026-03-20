@@ -1,59 +1,82 @@
 # Stream: IDENTITY
-**Phase**: 0 — RESEARCH
+**Phase**: 2 — BUILD (self-advanced: research 7/7 complete, roadmap in 005, completion test PASS)
 **Owner**: IDENTITY stream orchestrator
 **Last Updated**: 2026-03-20
 **Readiness**: GREEN
 
 ## Current Work
 
-Phase 0 research in progress. Inventory complete — strong data/server foundation from DATA stream, design tokens from DESIGN stream. No UI components yet for IDENTITY pages.
+Research complete (7/7). Completion test PASSED. Advancing to BUILD. First target: L0 Foundation — About page shell, skills section, markdown rendering, route wiring.
+
+Key decisions from research:
+- Positioning: "AI-Augmented Engineer" who engineers the collaboration
+- Page structure: Single scrollable `/about` page with sections (about, experience, skills, methodology, contact)
+- PDF approach: Typst (Rust-native) with dual output (visual + ATS)
+- Writing section: "Technical Writing" (Anthropic explicitly asks for blog posts)
+- No i18n: English only for target audience
 
 ## Research Progress
 
 | # | Section | Status |
 |---|---------|--------|
 | 1 | 001-inventory.md | COMPLETE |
-| 2 | 002-world-survey.md | IN PROGRESS |
-| 3 | 003-gap-analysis.md | pending |
-| 4 | 004-questions.md | pending |
-| 5 | 005-roadmap.md | pending |
-| 6 | 006-dependencies.md | pending |
-| 7 | 007-resources.md | pending |
+| 2 | 002-world-survey.md | COMPLETE |
+| 3 | 003-gap-analysis.md | COMPLETE |
+| 4 | 004-questions.md | COMPLETE |
+| 5 | 005-roadmap.md | COMPLETE |
+| 6 | 006-dependencies.md | COMPLETE |
+| 7 | 007-resources.md | COMPLETE |
 
-## Build Progress
+## Build Progress (from 005-roadmap.md)
 
-_(Updated when Phase 2 begins)_
+### L0 Foundation (unblocked)
+- [ ] About page shell (fetch cv_sections, render markdown)
+- [ ] Skills section (categorized grid from 27 seeded skills)
+- [ ] Contact section (needs Gabriel's info)
+- [ ] Markdown renderer (pulldown-cmark)
+- [ ] Draft experience content (propose for Gabriel's review)
+- [ ] Draft education content (propose for Gabriel's review)
+- [ ] Route wiring (`/about` → AboutPage)
 
-### L0 Foundation
-- [ ] About page with personal narrative structure
-- [ ] Experience timeline component
-- [ ] Skills section (categorized)
-- [ ] Contact section
-
-### L1 Integration
-- [ ] Interactive timeline with scroll animation
-- [ ] Skills visualization (radar chart or equivalent)
-- [ ] "AI-Augmented Engineering" methodology section
-- [ ] Education and certifications
+### L1 Integration (needs experience data)
+- [ ] Experience timeline (vertical, scroll-triggered)
+- [ ] Scroll-reveal animations (Intersection Observer in Leptos)
+- [ ] "How I Work" methodology section (MEGA framework)
+- [ ] Skills proficiency indicators (contextual, not percentage bars)
+- [ ] Technical Writing section infrastructure
+- [ ] Navigation integration (active state)
 
 ### L2 Enhancement
-- [ ] PDF CV generation (server-side)
-- [ ] PDF/web content sharing (same data model, DRY)
-- [ ] ATS-friendly PDF format
+- [ ] PDF CV generation (Typst)
+- [ ] ATS-friendly PDF variant
 - [ ] Download button with generation feedback
+- [ ] First technical writing pieces (2-3)
+- [ ] Expandable timeline nodes
+- [ ] Skills radar chart
 
 ### L3 Perfection
-- [ ] PDF visual polish (typography, layout, whitespace)
-- [ ] PDF versioning and caching
-- [ ] Print stylesheet matching PDF design
-- [ ] Multi-language support (English + Spanish?)
+- [ ] PDF visual polish
+- [ ] PDF versioning + caching
+- [ ] Print stylesheet
+- [ ] Hero animation (WASM-powered)
+- [ ] Accessibility audit
+- [ ] Performance optimization
+- [ ] Open Graph / social meta
 
 ## Blockers
 
-None.
+- Experience seed data needs Gabriel's real CV content (IDENTITY will draft proposals)
+- Education details need Gabriel's input
+- Contact info needs Gabriel's preference
+
+## Cross-Stream Messages Sent
+
+- → DATA: Will draft CV content for seed data (experience entries, education)
+- → DESIGN: Timeline handles N entries (expect 4-6), fields confirmed
 
 ## Metrics
 
+- Research sections: 7/7
 - Tests: 0
-- Source files: 0
+- Source files: 0 (build phase not started)
 - Commits: 0

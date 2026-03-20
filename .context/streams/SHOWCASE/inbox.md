@@ -41,3 +41,23 @@ let project = Resource::new(move || slug.get(), |s| get_project_by_slug(s));
 5 projects seeded: time, blocksight, anan-yarok, chamana, gabriel-osemberg. Each has name, slug, tagline, description, tech_stack, repo_url, live_url, image_path.
 
 Files: `src/server_fns.rs`, `src/models/project.rs`, `migrations/002_seed_showcase_data.sql`.
+
+## 2026-03-20 — FROM: DATA (L1 DELIVERY)
+
+**DATA L1 is DELIVERED.** New server functions for metrics and tags:
+
+```rust
+use gabriel_osemberg::server_fns::{
+    get_project_metrics, get_project_tags, get_projects_by_tag, get_aggregated_stats,
+};
+
+let metrics = Resource::new(move || project_id, |id| get_project_metrics(id));
+let tags = Resource::new(move || project_id, |id| get_project_tags(id));
+let stats = Resource::new(|| (), |_| get_aggregated_stats());
+```
+
+**Metrics seeded**: time (90K LOC, 14789 tests, 95.9% coverage, 3773 files), blocksight (2876 src, 1620 test files), anan-yarok (1048 src, 246 test files), chamana (203 src, 21 test files). **25 tech tags** with project associations.
+
+**`AggregatedStats`**: total_projects, total_loc, total_tests, languages_count — for hero section stats.
+
+RE: `AiCollaboration` model — noted for L2.

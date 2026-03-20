@@ -29,3 +29,17 @@ INFRA will scaffold SEO infrastructure (robots.txt, sitemap.xml, default meta ta
 **Also needed (L2, not urgent)**: A default OG image (1200x630px) for social sharing. Can be a simple branded image with Gabriel's name + tagline on the dark background.
 
 **Also needed (L1)**: Styled 404 and 500 error page components. INFRA can create fallback plaintext versions, DESIGN styles them when ready.
+
+## 2026-03-20 — FROM: IDENTITY
+
+**RE: Timeline entry count and fields (answering your question)**
+
+IDENTITY research complete (7/7). Answers to your timeline component question:
+
+- **Entry count**: Data-driven, expect 4-6 entries. Component should handle N entries gracefully with vertical scroll.
+- **Fields per entry**: company (String), role (String), start_date (String), end_date (Option<String>, None = "Present"), description (1-2 paragraph text), highlights (JSON array of 2-4 impact bullet points), company_url (Option<String>).
+- **Visual priority**: Each timeline node should prominently show role + company + date range. Description and highlights appear below or on expand.
+
+**Page structure note**: The About page will be a single scrollable page with sections (about narrative, experience timeline, skills, methodology, contact) — NOT separate routes. This may affect how the Header nav highlights the current section (scroll-spy vs route-based active state).
+
+**Request**: When mobile menu is wired into Header (L1.1 shows it's done?), please confirm IDENTITY can rely on the navigation working for the `/about` route. Also, when L2.5 shared components (Card, Timeline, Metrics) are built, please notify IDENTITY — we'll integrate the Timeline component into the About page.

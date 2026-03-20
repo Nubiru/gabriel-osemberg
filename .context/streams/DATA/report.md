@@ -1,38 +1,35 @@
-# DATA — Report: L0 Foundation Complete
+# DATA — Report: L1 Integration Complete
 
 **Date**: 2026-03-20
-**Task**: L0 Foundation — Dependencies + Models + Migrations + Server Functions + Tests
+**Task**: L1 Integration — ProjectMetric, TechTag, server functions, seed data
 **Status**: COMPLETE
 
 ## What Was Built
 
-### Files Created by DATA Stream (this session)
-- `src/server_fns.rs` — 5 server functions (get_projects, get_project_by_slug, get_experiences, get_skills, get_cv_sections)
-- `migrations/002_seed_showcase_data.sql` — Seed data: 5 projects, 30 skills, 3 CV sections
-- `tests/data_queries.rs` — 8 integration tests (in-memory SQLite)
-- Unit tests added to all 4 model files (8 tests total)
+### New Files
+- `src/models/project_metric.rs` — ProjectMetric model with unit tests
+- `src/models/tech_tag.rs` — TechTag model with unit tests
+- `src/models/project_tag.rs` — ProjectTag junction model with unit tests
+- `migrations/003_add_metrics_and_tags.sql` — tables + indexes
+- `migrations/004_seed_metrics_and_tags.sql` — 25 tech tags, 10 project metrics, project-tag associations (INSERT OR IGNORE)
 
-### Files Created by Prior Sessions (MEGA/DESIGN)
-- `src/models/mod.rs`, `project.rs`, `experience.rs`, `skill.rs`, `cv_section.rs` — 4 model structs
-- `src/server/mod.rs`, `error.rs` — DataError with thiserror
-- `migrations/001_create_tables.sql` — Schema for 4 tables
-- `src/main.rs` — Pool setup with `provide_context`, embedded migrations
-- `Cargo.toml` — sqlx, serde, thiserror, dotenvy dependencies
+### Modified Files
+- `src/models/mod.rs` — export new models
+- `src/server_fns.rs` — 4 new server functions + AggregatedStats struct
+- `tests/data_queries.rs` — 5 new integration tests
 
-### Files Modified by DATA Stream (this session)
-- `src/lib.rs` — Added `pub mod server_fns;`
-- `Cargo.toml` — Added `[dev-dependencies]` (serde_json, sqlx, tokio for tests)
-- `.gitignore` — Added `*.db`, `*.db-shm`, `*.db-wal`
-- Model files — Added unit tests to all 4
+## Inbox Responses
+
+1. **SHOWCASE**: Incorporated requested ProjectMetric fields. AiCollaboration model deferred to L2.
+2. **INFRA**: Explained SQLx migration idempotency. New migrations use INSERT OR IGNORE.
 
 ## Seed Data Summary
 
-| Table | Records | Content |
-|-------|---------|---------|
-| projects | 5 | time, blocksight, anan-yarok, chamana, gabriel-osemberg |
-| skills | 30 | 8 languages, 7 frameworks, 8 tools, 7 concepts |
-| cv_sections | 3 | about, methodology, philosophy |
-| experiences | 0 | Pending real CV content from Gabriel |
+| Table | New Records |
+|-------|------------|
+| tech_tags | 25 (7 languages, 2 technologies, 7 frameworks, 9 tools) |
+| project_tags | ~24 associations (4-6 tags per project) |
+| project_metrics | 10 (time: 4, blocksight: 2, anan-yarok: 2, chamana: 2) |
 
 ## Quality Gates
 
@@ -40,19 +37,6 @@
 |------|--------|
 | `cargo build --features ssr` | PASS |
 | `cargo build --features hydrate` | PASS |
-| `cargo clippy --features ssr -- -D warnings` | PASS (zero warnings) |
+| `cargo clippy --features ssr -- -D warnings` | PASS |
 | `cargo fmt --check` | PASS |
-| `cargo test --features ssr` | 16/16 PASS |
-
-## Architecture Notes
-
-- Server functions are in `src/server_fns.rs` (ungated module) because `#[server]` macro needs visibility from both client and server features
-- `src/server/` remains SSR-gated for implementation details (error types, future DB helpers)
-- Uses `sqlx::query_as::<_, T>()` (runtime) not `sqlx::query_as!()` (compile-time macro) — simpler, no `cargo sqlx prepare` needed. Can upgrade to macros in L3.
-- Tests use in-memory SQLite (`sqlite::memory:`) with embedded migrations — fast, isolated, no file cleanup
-
-## What Other Streams Can Now Do
-
-- **SHOWCASE**: Call `get_projects()` and `get_project_by_slug(slug)` to load project data for cards and detail pages
-- **IDENTITY**: Call `get_experiences()`, `get_skills()`, `get_cv_sections()` to render CV pages
-- Both can use `leptos::prelude::Resource` to load data reactively in components
+| `cargo test --features ssr` | 27/27 PASS |

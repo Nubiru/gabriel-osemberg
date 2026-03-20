@@ -1,11 +1,16 @@
 # DATA — Active Task
 
-**Task**: L0 Foundation — COMPLETE
-**Tasks**: L0-01 through L0-20
+**Task**: L1 Integration — COMPLETE
 **Status**: COMPLETE
-**Started**: 2026-03-20
 **Completed**: 2026-03-20
+
+## What Was Built
+- ProjectMetric, TechTag, ProjectTag models
+- 2 migrations (tables + seed data with INSERT OR IGNORE)
+- 4 new server functions (metrics, tags, tag filtering, aggregated stats)
+- AggregatedStats struct for hero section
+- 9 new tests (4 unit + 5 integration)
 
 ## Next Task
 
-L1 Integration — ProjectMetric model, TechTag model, GitHub API integration with caching, aggregation server functions. See `research/005-roadmap.md` for full L1 task list.
+L2 Enhancement — AiCollaboration model (SHOWCASE request), search/filter server functions, data validation. Or await further stream requests.
