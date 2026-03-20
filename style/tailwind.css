@@ -268,4 +268,10 @@
         white-space: nowrap;
         border-width: 0;
     }
+
+    /* Scroll reveal — triggered by Intersection Observer adding .revealed class */
+    .scroll-reveal.revealed {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

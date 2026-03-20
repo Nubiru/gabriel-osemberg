@@ -1,6 +1,9 @@
 pub mod error;
+pub mod hero;
 pub mod layout;
 pub mod loading;
 pub mod mobile_menu;
+pub mod pages;
+pub mod scroll_reveal;
 pub mod theme_toggle;
 pub mod ui;
