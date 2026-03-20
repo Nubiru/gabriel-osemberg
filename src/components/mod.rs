@@ -9,4 +9,5 @@ pub mod project_detail;
 pub mod projects_page;
 pub mod scroll_reveal;
 pub mod theme_toggle;
+pub mod timeline;
 pub mod ui;
