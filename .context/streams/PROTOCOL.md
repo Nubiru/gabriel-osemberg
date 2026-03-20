@@ -66,14 +66,51 @@ LOOP:
 
 ```
 LOOP:
-  1. EVALUATE    — Read roadmap, check claims
+  1. EVALUATE    — Read roadmap, check claims, read inbox
   2. PLAN        — Write task.md (claim lock)
-  3. EXECUTE     — Launch Writer subagent (TDD)
-  4. VALIDATE    — Launch Checker subagent (compile, test, lint)
-  5. MAINTAIN    — Launch Maintainer subagent (regression, metrics)
-  6. DOCUMENT    — Write report.md, commit + push
+  3. EXECUTE     — Write code (tests + implementation)
+  4. VERIFY      — `cargo check` ONLY (NO cargo build, NO cargo test)
+  5. COMMIT      — git add specific files, commit, push
+  6. NOTIFY      — Write to INFRA inbox requesting test run, update status.md
   GOTO 1
 ```
+
+---
+
+## BUILD COORDINATION RULES (CRITICAL)
+
+**These rules exist because all 5 streams running `cargo build` and `cargo test` simultaneously brought the host to near-death. This MUST NOT happen again.**
+
+### What streams CAN do
+- `cargo check --no-default-features --features=ssr` — type-checking only, fast, no linking
+- `cargo check --no-default-features --features=hydrate --target=wasm32-unknown-unknown` — WASM type check
+- `cargo fmt --check` — formatting check (instant, no CPU)
+- Read CI results on GitHub Actions (`gh run view`)
+
+### What streams MUST NOT do
+- `cargo build` — full compilation with linking, CPU-intensive
+- `cargo test` — compiles AND runs tests, CPU-intensive
+- `cargo leptos build` — compiles BOTH SSR + WASM + Tailwind, extremely CPU-intensive
+- `cargo clippy` — full compilation with additional analysis, CPU-intensive
+- Any command that triggers the Rust linker
+
+### Who runs builds and tests
+- **INFRA stream** is the sole local test runner when requested via inbox
+- **MEGA** may run tests during health checks
+- **GitHub Actions CI** runs the full gate on every push
+- If a stream needs to verify its code works: commit, push, check CI
+
+### Migration file coordination
+- Before creating a new migration file, ALWAYS run `ls migrations/` to see the next available number
+- NEVER create a migration with the same number as an existing one
+- If two streams need migrations in the same session, coordinate via inbox
+
+### Error-prone code prevention
+- Streams MUST read the existing code in any file they modify BEFORE writing
+- Streams MUST NOT generate large files from scratch without reading existing patterns
+- When adding a new component, read at least 2 existing components first to match patterns
+- When writing Leptos props, understand the `#[prop(optional, into)]` rules:
+  - `Option<String>` props cannot accept `Option<String>` values via `into` — use match branches or unwrap
 
 ---
 
@@ -171,9 +208,13 @@ When a stream finishes a session, its LAST action must be updating `status.md` w
 
 ## Quality Gates
 
-| Gate | Criteria |
-|------|----------|
-| Build | {BUILD_TOOL} succeeds with zero warnings |
-| Tests | All tests pass |
-| Lint | {LINT_TOOL} reports no violations |
-| Quality | Maintainer subagent PASS before commit |
+| Gate | Who Runs | Criteria |
+|------|----------|----------|
+| Type check | Stream (cargo check) | Zero errors on both ssr + hydrate |
+| Format | Stream (cargo fmt --check) | No formatting issues |
+| Tests | INFRA or CI only | 73+ tests pass, zero failures |
+| Clippy | INFRA or CI only | Zero warnings on ssr + hydrate |
+| Full build | CI only | cargo leptos build succeeds |
+| Quality | MEGA review | Code matches conventions, no hardcoded values |
+
+**Streams verify with `cargo check` only. INFRA and CI handle the rest.**

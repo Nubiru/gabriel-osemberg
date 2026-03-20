@@ -71,6 +71,15 @@ Authorized to commit and push after Maintainer PASS. Rules:
 - NEVER force push, NEVER amend, NEVER reset, NEVER branch, NEVER checkout
 - Commit happens after Maintainer PASS
 
+### Build Coordination (CRITICAL)
+
+**Streams MUST NOT run `cargo build`, `cargo test`, `cargo clippy`, or `cargo leptos build`.** These are CPU-intensive. Running them from all streams simultaneously crashes the host.
+
+- **Allowed**: `cargo check` (type-check only), `cargo fmt --check`
+- **Full verification**: Commit + push, then check CI. Or request INFRA to run tests via inbox.
+- **Before creating migrations**: `ls migrations/` to check next available number.
+- **Before modifying files**: Read the file first. Match existing patterns.
+
 ---
 
 ## 5. Evidence-First Protocol

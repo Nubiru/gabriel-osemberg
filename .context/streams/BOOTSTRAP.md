@@ -76,6 +76,22 @@ Each section uses the unified skeleton. See PROTOCOL.md for completion criteria.
 - You do NOT make architectural decisions (escalate to MEGA via outbox)
 - You do NOT skip sections (complete 001 before starting 002)
 
+## BUILD RULES (CRITICAL — READ THIS)
+
+**You MUST NOT run `cargo build`, `cargo test`, `cargo clippy`, or `cargo leptos build`.** These commands are CPU-intensive and when all 5 streams run them simultaneously, it crashes the host.
+
+**You CAN run:**
+- `cargo check --no-default-features --features=ssr` (type-check only, fast)
+- `cargo check --no-default-features --features=hydrate --target=wasm32-unknown-unknown`
+- `cargo fmt --check` (instant)
+
+**For full verification:** Commit, push, and check CI on GitHub Actions. Or write to INFRA's inbox requesting a test run.
+
+**Before creating migration files:** Run `ls migrations/` to see the next available number. NEVER create a duplicate number.
+
+**Before modifying any file:** Read the file first. Read 2+ existing files of the same type to match patterns.
+- You do NOT skip sections (complete 001 before starting 002)
+
 ## Phase Transitions — Self-Advancing
 
 You do NOT wait for MEGA approval to advance phases. When your current phase is complete:
