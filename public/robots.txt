@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gabriel-osemberg.fly.dev/sitemap.xml

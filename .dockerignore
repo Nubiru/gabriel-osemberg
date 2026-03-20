@@ -1,0 +1,12 @@
+target/
+node_modules/
+.git/
+.context/
+.claude/
+*.db
+*.db-shm
+*.db-wal
+.env
+.env.*
+.vscode/
+.idea/

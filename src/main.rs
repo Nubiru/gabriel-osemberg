@@ -1,13 +1,14 @@
 #[cfg(feature = "ssr")]
 #[tokio::main]
 async fn main() {
-    use axum::Router;
+    use axum::{routing::get, Extension, Router};
     use leptos::logging::log;
     use leptos::prelude::*;
     use leptos_axum::{generate_route_list, LeptosRoutes};
     use sqlx::sqlite::SqlitePoolOptions;
 
     use gabriel_osemberg::app::*;
+    use gabriel_osemberg::server::health::health_handler;
 
     dotenvy::dotenv().ok();
 
@@ -31,6 +32,7 @@ async fn main() {
     let routes = generate_route_list(App);
 
     let app = Router::new()
+        .route("/health", get(health_handler))
         .leptos_routes_with_context(
             &leptos_options,
             routes,
@@ -44,6 +46,7 @@ async fn main() {
             },
         )
         .fallback(leptos_axum::file_and_error_handler(shell))
+        .layer(Extension(pool))
         .with_state(leptos_options);
 
     log!("listening on http://{}", &addr);

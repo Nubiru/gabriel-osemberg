@@ -2,3 +2,6 @@
 
 #[cfg(feature = "ssr")]
 pub mod error;
+
+#[cfg(feature = "ssr")]
+pub mod health;
