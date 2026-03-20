@@ -33,6 +33,11 @@ Thumbs.db
 # Library (books — large binaries, not for git)
 .context/library/inbox/
 
+# Database
+*.db
+*.db-shm
+*.db-wal
+
 # Secrets
 .env
 .env.*
