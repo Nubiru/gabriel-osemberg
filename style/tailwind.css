@@ -372,4 +372,87 @@
         color: var(--color-text-primary);
         font-weight: 500;
     }
+
+    /* Custom scrollbar — themed, unobtrusive */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--color-border-default);
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--color-border-focus);
+    }
+
+    /* Firefox scrollbar */
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--color-border-default) transparent;
+    }
+}
+
+/* Print stylesheet — clean CV output */
+@media print {
+    body {
+        background: white !important;
+        color: black !important;
+        font-size: 11pt !important;
+    }
+
+    /* Hide non-content elements */
+    header,
+    footer,
+    nav,
+    .theme-toggle,
+    .scroll-reveal,
+    button,
+    .mobile-menu {
+        display: none !important;
+    }
+
+    /* Remove decorative effects */
+    * {
+        box-shadow: none !important;
+        text-shadow: none !important;
+        animation: none !important;
+        transition: none !important;
+    }
+
+    /* Ensure links are visible */
+    a {
+        color: black !important;
+        text-decoration: underline !important;
+    }
+
+    a[href^="http"]::after {
+        content: " (" attr(href) ")";
+        font-size: 9pt;
+        color: #666;
+    }
+
+    /* Clean page breaks */
+    section {
+        page-break-inside: avoid;
+    }
+
+    h1,
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+
+    /* Ensure content fills the page */
+    main {
+        max-width: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
 }
