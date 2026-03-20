@@ -207,3 +207,109 @@ Use **SQLite** as the primary database via SQLx with compile-time checked querie
 ### Rationale
 
 The workload is read-heavy with single-writer updates (only during content seeding or admin updates). SQLite eliminates deployment complexity while SQLx ensures the same type-safe query experience. The migration path to PostgreSQL is trivial, so this is a low-risk, high-convenience choice.
+
+---
+
+## ADR-004: Code as Portfolio — REST API + Architecture Showcase
+
+**Date**: 2026-03-20
+**Status**: Accepted
+
+### Context
+
+This codebase serves dual purpose: it IS the portfolio AND it showcases portfolio items. The architecture must demonstrate programming prowess to anyone who reads the source code on GitHub. Additionally, Leptos server functions use RPC-over-HTTP (not REST), which means the codebase doesn't demonstrate REST API design skills — a gap for job applications.
+
+Gabriel asked: "How do I display programming prowess in the SAME CODEBASE where I wish to display my prowess visibly?"
+
+### Decision
+
+1. **Add a thin REST API layer** at `/api/v1/` alongside Leptos server functions. This demonstrates both patterns (RPC + REST) and makes project data reusable.
+
+2. **Add an `/architecture` page** on the website that shows:
+   - Tech stack with version details
+   - Module dependency visualization
+   - Design token system explanation
+   - Test coverage and quality metrics
+   - Link to public GitHub repo
+   - The human-AI collaboration methodology
+
+3. **Architecture principles that the code itself demonstrates:**
+   - Pure/stateful separation: models are pure data, server functions are the I/O boundary
+   - Design tokens: zero hardcoded visual values
+   - Error handling: `Result<T, E>` everywhere, domain error enums, no `.unwrap()`
+   - Semantic HTML + ARIA for accessibility
+   - Module docs (`//!`) on every file
+   - Files under 400 lines
+   - ADRs for every significant decision
+
+### REST API Endpoints
+
+```
+GET /api/v1/projects          → Vec<Project>
+GET /api/v1/projects/:slug    → Project
+GET /api/v1/skills            → Vec<Skill>
+GET /api/v1/experiences       → Vec<Experience>
+GET /api/v1/health            → { status: "ok", version: "..." }
+```
+
+JSON responses with proper HTTP status codes, Content-Type headers, and error responses.
+
+### Alternatives Considered
+
+1. **No REST API**: Rejected — misses the opportunity to demonstrate REST knowledge.
+2. **Full OpenAPI spec + Swagger UI**: Rejected — over-engineering for a portfolio site.
+3. **GraphQL instead of REST**: Rejected — REST is more universally expected and simpler to demonstrate.
+
+### Consequences
+
+**Positive**:
+- Demonstrates both RPC (Leptos server fns) and REST patterns in one codebase
+- `/architecture` page creates a recursive proof-of-skill
+- Data becomes reusable for future integrations
+- Health endpoint useful for monitoring (INFRA stream)
+
+**Negative**:
+- Slight code duplication between server fns and REST handlers (acceptable — different audiences)
+- Additional surface area to test
+
+### Rationale
+
+The marginal effort to add 5 REST endpoints is small. The portfolio signal is significant: "I know REST, I know RPC, and I know when to use each." The `/architecture` page turns the meta-narrative into a visible feature.
+
+---
+
+## ADR-005: Fly.io as Deployment Platform
+
+**Date**: 2026-03-20
+**Status**: Accepted
+**Requested by**: INFRA stream (via research/004-questions.md)
+
+### Context
+
+The project needs a deployment platform that is NOT Vercel (novelty constraint from ADR-001). INFRA stream evaluated Fly.io, Shuttle.rs, and Railway.
+
+### Decision
+
+Use **Fly.io** for deployment.
+
+### Alternatives Considered
+
+1. **Shuttle.rs**: Rejected — Rust-native but limited control over the runtime, less mature for production, uncertain future.
+2. **Railway**: Rejected — simpler but less educational. Fly.io's Dockerfile-based deployment teaches more about containerization.
+
+### Consequences
+
+**Positive**:
+- Excellent Rust/Docker support, global edge network
+- Persistent Fly Volumes for SQLite database
+- Free tier sufficient for a portfolio site
+- Teaches Dockerfile + deployment concepts (portfolio value)
+- Health checks, auto-scaling, rolling deploys built-in
+
+**Negative**:
+- Requires Fly.io account setup + flyctl CLI
+- SQLite on Fly Volume means single-region write (acceptable for portfolio)
+
+### Rationale
+
+Fly.io offers the best combination of production quality, learning value, and Rust support. The Dockerfile-based workflow itself becomes a portfolio demonstration.
