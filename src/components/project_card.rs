@@ -71,7 +71,6 @@ pub fn ProjectCard(project: Project) -> impl IntoView {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use crate::models::Project;
 
     fn sample_project() -> Project {
