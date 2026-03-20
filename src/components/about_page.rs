@@ -123,13 +123,17 @@ pub fn AboutPage() -> impl IntoView {
     }
 }
 
-/// Renders all CV sections in order: about, methodology, military, education, languages.
+/// Renders all CV sections in order: about, methodology, writing, philosophy, military, education, languages.
 #[component]
 fn CvSectionsView(sections: Vec<CvSection>) -> impl IntoView {
     let about = sections.iter().find(|s| s.section_type == "about").cloned();
     let methodology = sections
         .iter()
         .find(|s| s.section_type == "methodology")
+        .cloned();
+    let writing = sections
+        .iter()
+        .find(|s| s.section_type == "writing")
         .cloned();
     let philosophy = sections
         .iter()
@@ -173,6 +177,21 @@ fn CvSectionsView(sections: Vec<CvSection>) -> impl IntoView {
                 view! {
                     <ScrollReveal delay=100>
                         <section aria-label="Engineering Methodology" class="mt-16 sm:mt-20">
+                            <SectionHeading title=s.title.clone()/>
+                            <div class="prose-content max-w-3xl">
+                                <ContentRenderer content=s.content.clone()/>
+                            </div>
+                        </section>
+                    </ScrollReveal>
+                }
+            })}
+
+        // Technical Writing
+        {writing
+            .map(|s| {
+                view! {
+                    <ScrollReveal delay=100>
+                        <section aria-label="Technical Writing" class="mt-16 sm:mt-20">
                             <SectionHeading title=s.title.clone()/>
                             <div class="prose-content max-w-3xl">
                                 <ContentRenderer content=s.content.clone()/>

@@ -71,6 +71,17 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
             </head>
             <body class="bg-surface-base text-text-primary font-body">
                 <App/>
+
+                // GoatCounter analytics — privacy-first, no cookies, GDPR-compliant
+                // Create account at https://www.goatcounter.com then update the data-goatcounter URL
+                <script
+                    data-goatcounter="https://gabriel-osemberg.goatcounter.com/count"
+                    async_=""
+                    src="//gc.zgo.at/count.js"
+                />
+                <noscript>
+                    <img src="https://gabriel-osemberg.goatcounter.com/count?p=/noscript" alt=""/>
+                </noscript>
             </body>
         </html>
     }
