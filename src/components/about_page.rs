@@ -171,20 +171,14 @@ fn CvSectionsView(sections: Vec<CvSection>) -> impl IntoView {
                 }
             })}
 
-        // Methodology — the differentiator
-        {methodology
-            .map(|s| {
-                view! {
-                    <ScrollReveal delay=100>
-                        <section aria-label="Engineering Methodology" class="mt-16 sm:mt-20">
-                            <SectionHeading title=s.title.clone()/>
-                            <div class="prose-content max-w-3xl">
-                                <ContentRenderer content=s.content.clone()/>
-                            </div>
-                        </section>
-                    </ScrollReveal>
-                }
-            })}
+        // Methodology — the differentiator (visual component, not generic prose)
+        {methodology.is_some().then(|| {
+            view! {
+                <ScrollReveal delay=100>
+                    <MethodologySection/>
+                </ScrollReveal>
+            }
+        })}
 
         // Technical Writing
         {writing
@@ -426,6 +420,134 @@ fn ExperienceTimelineEntry(exp: Experience) -> impl IntoView {
             />
         }
         .into_any(),
+    }
+}
+
+/// Methodology section — visual presentation of the AI-Augmented Engineering framework.
+///
+/// Renders the MEGA framework as a structured visual layout rather than plain prose.
+/// This is the key differentiator for Anthropic and other AI companies.
+#[component]
+fn MethodologySection() -> impl IntoView {
+    view! {
+        <section aria-label="Engineering Methodology" class="mt-16 sm:mt-20">
+            <SectionHeading title="AI-Augmented Engineering".to_string()/>
+
+            // Hook — the opening statement
+            <div class="mb-10 p-6 rounded-xl bg-surface-raised border border-border-subtle">
+                <blockquote class="text-lg sm:text-xl text-text-primary font-medium leading-relaxed">
+                    "I don\u{2019}t just use AI \u{2014} I engineer the collaboration."
+                </blockquote>
+                <p class="mt-3 text-sm text-text-secondary">
+                    "My structured framework treats AI as a force multiplier within rigorous quality gates."
+                </p>
+            </div>
+
+            // Four pillars — the methodology architecture
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-10">
+                <MethodologyPillar
+                    icon="agents"
+                    title="Multi-Agent Orchestration"
+                    description="Parallel AI sessions each owning a domain \u{2014} architecture, data, UI, infrastructure \u{2014} coordinated through file-based protocols."
+                />
+                <MethodologyPillar
+                    icon="test"
+                    title="Test-First Development"
+                    description="AI writes tests before code. The test is the specification. No exceptions."
+                />
+                <MethodologyPillar
+                    icon="spec"
+                    title="Formal Specifications"
+                    description="Every project has a CLAUDE.md (identity + rules), SOUL.md (AI\u{2019}s perspective), and Architecture Decision Records."
+                />
+                <MethodologyPillar
+                    icon="verify"
+                    title="Evidence-First Validation"
+                    description="No claim of \u{201c}fixed\u{201d} without verification. Every change is compiled, tested, linted, and reviewed."
+                />
+            </div>
+
+            // 70/30 framework visual
+            <div class="p-6 rounded-xl bg-surface-raised border border-border-subtle">
+                <h3 class="font-display text-lg font-semibold text-text-primary mb-4">
+                    "The 70/30 Framework"
+                </h3>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    // AI's 70%
+                    <div class="flex-[7] p-4 rounded-lg bg-surface-overlay/50 border border-border-subtle">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="font-mono text-2xl font-bold text-text-muted">"70%"</span>
+                            <span class="text-sm font-medium text-text-secondary">"AI handles"</span>
+                        </div>
+                        <p class="text-sm text-text-muted">"Boilerplate, patterns, repetition, first drafts, validation runs"</p>
+                    </div>
+                    // Human's 30%
+                    <div class="flex-[3] p-4 rounded-lg bg-accent/5 border border-accent/20">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="font-mono text-2xl font-bold text-accent">"30%"</span>
+                            <span class="text-sm font-medium text-text-primary">"I own"</span>
+                        </div>
+                        <p class="text-sm text-text-secondary">"Architecture, edge cases, judgment, quality standards"</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+}
+
+/// A single methodology pillar card.
+#[component]
+fn MethodologyPillar(
+    #[prop(into)] icon: String,
+    #[prop(into)] title: String,
+    #[prop(into)] description: String,
+) -> impl IntoView {
+    view! {
+        <div class="p-5 rounded-xl bg-surface-raised border border-border-subtle
+                    hover:border-border-focus transition-colors duration-200">
+            <div class="flex items-start gap-3">
+                <div class="mt-0.5 shrink-0">
+                    <PillarIcon icon_type=icon/>
+                </div>
+                <div>
+                    <h3 class="font-display text-sm font-semibold text-text-primary mb-1.5">{title}</h3>
+                    <p class="text-sm text-text-secondary leading-relaxed">{description}</p>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+/// SVG icons for methodology pillars.
+#[component]
+fn PillarIcon(#[prop(into)] icon_type: String) -> impl IntoView {
+    let class = "w-5 h-5 text-accent";
+    match icon_type.as_str() {
+        // Multi-agent: grid/nodes icon
+        "agents" => view! {
+            <svg class=class fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/>
+            </svg>
+        }.into_any(),
+        // Test-first: checkmark/shield icon
+        "test" => view! {
+            <svg class=class fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
+            </svg>
+        }.into_any(),
+        // Formal specs: document icon
+        "spec" => view! {
+            <svg class=class fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
+            </svg>
+        }.into_any(),
+        // Evidence-first: magnifying glass/check icon
+        "verify" => view! {
+            <svg class=class fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"/>
+            </svg>
+        }.into_any(),
+        _ => view! { <span class="w-5 h-5"></span> }.into_any(),
     }
 }
 
