@@ -1,60 +1,86 @@
 # Stream: INFRA
-**Phase**: 0 — RESEARCH
-**Owner**: (unassigned — launch with `/stream INFRA`)
+**Phase**: 1 — ROADMAP
+**Owner**: INFRA stream
 **Last Updated**: 2026-03-20
 **Readiness**: GREEN
 
 ## Current Work
 
-Awaiting first session launch. This stream owns deployment, CI/CD, SEO, analytics, performance optimization, and production readiness.
+Research phase COMPLETE (7/7 sections). Phase advanced to ROADMAP. Layered roadmap (L0-L3) designed in 005-roadmap.md. Ready to refine and advance to BUILD.
+
+## Key Decisions from Research
+
+- **Deployment**: Fly.io (Shuttle.rs eliminated, Railway optional backup)
+- **Analytics**: GoatCounter (free, privacy-first, zero infrastructure)
+- **WASM optimization**: Add wasm-opt to Dockerfile (10-20% additional savings)
+- **Caching**: Hash-based immutable for WASM/JS/CSS, no-cache for HTML
+- **Lighthouse CI**: treosh/lighthouse-ci-action, fail on <90
 
 ## Research Progress
 
 | # | Section | Status |
 |---|---------|--------|
-| 1 | 001-inventory.md | pending |
-| 2 | 002-world-survey.md | pending |
-| 3 | 003-gap-analysis.md | pending |
-| 4 | 004-questions.md | pending |
-| 5 | 005-roadmap.md | pending |
-| 6 | 006-dependencies.md | pending |
-| 7 | 007-resources.md | pending |
+| 1 | 001-inventory.md | COMPLETE |
+| 2 | 002-world-survey.md | COMPLETE |
+| 3 | 003-gap-analysis.md | COMPLETE |
+| 4 | 004-questions.md | COMPLETE |
+| 5 | 005-roadmap.md | COMPLETE |
+| 6 | 006-dependencies.md | COMPLETE |
+| 7 | 007-resources.md | COMPLETE |
 
 ## Build Progress
 
-_(Updated when Phase 2 begins)_
-
 ### L0 Foundation
-- [ ] Deployment platform selection and setup (Fly.io / Shuttle.rs / Railway)
-- [ ] Dockerfile or deployment config
-- [ ] Basic CI pipeline (cargo build + test + clippy on push)
-- [ ] Staging environment
+- [ ] Dockerfile (multi-stage Debian build)
+- [ ] fly.toml (Fly.io app config)
+- [ ] Health check endpoint (`/health`)
+- [ ] CD pipeline (GH Action: push -> build -> deploy)
+- [ ] First deploy (live on *.fly.dev)
+- [ ] Fly Volume (SQLite persistence)
+- [ ] robots.txt
+- [ ] sitemap.xml
 
 ### L1 Integration
 - [ ] Custom domain + HTTPS
-- [ ] CD pipeline (auto-deploy on main push)
-- [ ] SEO metadata (Open Graph, Twitter cards, structured data)
-- [ ] Robots.txt and sitemap.xml
+- [ ] SEO meta tags (leptos_meta) — needs DESIGN
+- [ ] JSON-LD structured data (Person schema)
+- [ ] Cache headers (Axum middleware)
+- [ ] Error pages (404, 500) — needs DESIGN
+- [ ] WASM compression verification
 
 ### L2 Enhancement
-- [ ] Privacy-respecting analytics (Plausible or similar)
-- [ ] Error monitoring
-- [ ] Performance monitoring (WASM size, load times)
-- [ ] Social media preview images per page
+- [ ] GoatCounter analytics
+- [ ] Lighthouse CI (GH Action)
+- [ ] wasm-opt in Dockerfile
+- [ ] Social preview images — needs DESIGN
+- [ ] Environment config separation
+- [ ] E2E smoke tests — needs DESIGN + DATA
 
 ### L3 Perfection
-- [ ] CDN for static assets
-- [ ] Cache headers optimization
-- [ ] Lighthouse CI (fail pipeline if scores drop)
+- [ ] CDN optimization
 - [ ] Uptime monitoring
-- [ ] Production smoke test suite
+- [ ] Error monitoring / structured logging
+- [ ] Production smoke tests (post-deploy)
+- [ ] Performance dashboard (FCP/LCP trends)
+- [ ] Security headers (CSP, X-Frame-Options, etc.)
+
+## Cross-Stream Messages Sent
+
+- To DESIGN: SEO meta tag coordination, OG image request, error page request
+- To DATA: Seed data idempotency (INSERT OR IGNORE)
 
 ## Blockers
 
-None.
+None. L0 is entirely self-contained.
+
+## Human Actions Needed (before BUILD phase)
+
+- [ ] Create Fly.io account
+- [ ] Decide on domain name
+- [ ] Install flyctl CLI
 
 ## Metrics
 
-- Tests: 0
-- Source files: 0
+- Research sections: 7/7
+- Source files: 0 (research phase, no code yet)
 - Commits: 0
