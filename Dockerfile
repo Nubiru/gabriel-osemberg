@@ -15,6 +15,9 @@ RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
 WORKDIR /app
 COPY . .
 
+# Install npm dependencies (tailwindcss v4 needs the package for @import resolution)
+RUN npm install
+
 # Build the release binary + WASM bundle + CSS
 RUN cargo leptos build --release -vv
 
