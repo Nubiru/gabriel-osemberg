@@ -416,7 +416,7 @@ fn SkillsSection(skills: Vec<crate::models::Skill>) -> impl IntoView {
     // Filter out spoken languages — they have their own cv_section
     let tech_skills: Vec<crate::models::Skill> = skills
         .into_iter()
-        .filter(|s| s.category != "spoken-language")
+        .filter(|s| s.category != "spoken_language")
         .collect();
 
     view! {

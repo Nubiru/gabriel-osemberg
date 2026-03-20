@@ -134,7 +134,7 @@ WHERE section_type = 'methodology';
 -- Spoken language skills (separate from programming languages)
 INSERT OR IGNORE INTO skills (name, category, proficiency, visible)
 VALUES
-    ('Hebrew', 'spoken-language', 5, 1),
-    ('English', 'spoken-language', 5, 1),
-    ('Spanish', 'spoken-language', 5, 1),
-    ('Portuguese', 'spoken-language', 5, 1);
+    ('Hebrew', 'spoken_language', 5, 1),
+    ('English', 'spoken_language', 5, 1),
+    ('Spanish', 'spoken_language', 5, 1),
+    ('Portuguese', 'spoken_language', 5, 1);
