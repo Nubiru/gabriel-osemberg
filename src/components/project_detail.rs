@@ -6,6 +6,7 @@ use leptos_router::hooks::use_params_map;
 
 use crate::components::error::ErrorDisplay;
 use crate::components::loading::SkeletonCard;
+use crate::components::metrics_dashboard::MetricsDashboard;
 use crate::components::ui::{Badge, ExternalLink};
 use crate::server_fns::get_project_by_slug;
 
@@ -34,6 +35,7 @@ pub fn ProjectDetailPage() -> impl IntoView {
                         match result {
                             Ok(proj) => {
                                 // Destructure into owned values to avoid borrow issues in view! macro
+                                let project_id = proj.id;
                                 let title_text = format!("{} — Gabriel Osemberg", proj.name);
                                 let name = proj.name;
                                 let tagline = proj.tagline;
@@ -88,6 +90,9 @@ pub fn ProjectDetailPage() -> impl IntoView {
                                                 {tagline}
                                             </p>
                                         </div>
+
+                                        // Metrics dashboard
+                                        <MetricsDashboard project_id=project_id/>
 
                                         // Tech stack badges
                                         <div class="mt-6 flex flex-wrap gap-2">
