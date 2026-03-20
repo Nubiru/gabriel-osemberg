@@ -11,6 +11,7 @@ leptos = { version = "0.8" }
 leptos_router = { version = "0.8" }
 leptos_meta = { version = "0.8" }
 serde = { version = "1", features = ["derive"] }
+serde_json = "1"
 
 # SSR-only (optional)
 axum = { version = "0.8", optional = true }

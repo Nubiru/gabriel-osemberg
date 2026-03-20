@@ -21,7 +21,7 @@ pub fn ProjectsPage() -> impl IntoView {
         <section class="py-12">
             <SectionHeading
                 title="Projects"
-                subtitle="Real systems built with intention — from temporal artwork to production platforms."
+                subtitle="Real systems built with intention — from temporal artwork to production platforms.".to_string()
             />
 
             <Suspense fallback=move || {
