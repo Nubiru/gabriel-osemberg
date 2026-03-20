@@ -8,3 +8,6 @@ pub mod health;
 
 #[cfg(feature = "ssr")]
 pub mod middleware;
+
+#[cfg(feature = "ssr")]
+pub mod pdf;

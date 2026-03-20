@@ -10,6 +10,7 @@ async fn main() {
     use gabriel_osemberg::app::*;
     use gabriel_osemberg::server::health::health_handler;
     use gabriel_osemberg::server::middleware::{cache_headers, security_headers};
+    use gabriel_osemberg::server::pdf::cv_pdf_handler;
 
     dotenvy::dotenv().ok();
 
@@ -34,6 +35,7 @@ async fn main() {
 
     let app = Router::new()
         .route("/health", get(health_handler))
+        .route("/api/cv.pdf", get(cv_pdf_handler))
         .leptos_routes_with_context(
             &leptos_options,
             routes,
