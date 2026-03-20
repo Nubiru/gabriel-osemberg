@@ -166,3 +166,44 @@ Showcase 4 existing projects + the CV website itself as #5:
 ### Rationale
 
 Four diverse, mature projects plus the CV website itself covers the essential signals: systems programming mastery, full-stack web development, real business impact, design sensibility, and Rust/WASM capability. Each project tells a different story. Together they paint the picture of a versatile AI-augmented engineer.
+
+---
+
+## ADR-003: SQLite as Primary Database
+
+**Date**: 2026-03-20
+**Status**: Accepted
+**Requested by**: DATA stream (via outbox -> MEGA)
+
+### Context
+
+The CV website needs a database to store project data, experience entries, skills, and CV content sections. The choice is between SQLite (embedded, zero-config) and PostgreSQL (full-featured, client-server). DATA stream completed research and recommends SQLite. Full rationale in `.context/streams/DATA/research/004-questions.md` (Q1).
+
+### Decision
+
+Use **SQLite** as the primary database via SQLx with compile-time checked queries.
+
+### Alternatives Considered
+
+1. **PostgreSQL**: Rejected for now — overkill for a portfolio site's read-heavy, single-writer workload. Adds deployment complexity (separate DB service). SQLx migration to PostgreSQL is trivial if the project ever needs it.
+2. **No database (hardcoded data)**: Rejected — violates the "content is data" rule. Hardcoded content cannot be updated without recompilation, and demonstrating database skills is a portfolio goal.
+3. **JSON files**: Rejected — no query capability, no schema validation, no migration story.
+
+### Consequences
+
+**Positive**:
+- Zero configuration for development (single file, no service to run)
+- Supported by all deployment candidates (Fly.io, Shuttle.rs, Railway)
+- SQLx provides compile-time query checking — same developer experience as PostgreSQL
+- Single-file backup (copy the `.db` file)
+- Excellent read performance for the portfolio's workload pattern
+- Migration to PostgreSQL is trivial with SQLx (change connection string + minor SQL dialect adjustments)
+
+**Negative**:
+- Single-writer limitation (irrelevant for a portfolio site)
+- No built-in full-text search without FTS5 extension
+- Less impressive on resume than PostgreSQL (minor concern)
+
+### Rationale
+
+The workload is read-heavy with single-writer updates (only during content seeding or admin updates). SQLite eliminates deployment complexity while SQLx ensures the same type-safe query experience. The migration path to PostgreSQL is trivial, so this is a low-risk, high-convenience choice.
