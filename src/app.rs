@@ -2,12 +2,14 @@ use leptos::prelude::*;
 use leptos_meta::{provide_meta_context, Link, Meta, MetaTags, Stylesheet, Title};
 use leptos_router::{
     components::{Route, Router, Routes},
-    StaticSegment,
+    ParamSegment, StaticSegment,
 };
 
 use crate::components::hero::Hero;
 use crate::components::layout::Layout;
 use crate::components::pages::NotFoundPage;
+use crate::components::project_detail::ProjectDetailPage;
+use crate::components::projects_page::ProjectsPage;
 use crate::components::scroll_reveal::ScrollRevealInit;
 
 pub fn shell(options: LeptosOptions) -> impl IntoView {
@@ -76,6 +78,8 @@ pub fn App() -> impl IntoView {
             <Layout>
                 <Routes fallback=|| view! { <NotFoundPage/> }>
                     <Route path=StaticSegment("") view=HomePage/>
+                    <Route path=StaticSegment("projects") view=ProjectsPage/>
+                    <Route path=(StaticSegment("projects"), ParamSegment("slug")) view=ProjectDetailPage/>
                 </Routes>
             </Layout>
         </Router>

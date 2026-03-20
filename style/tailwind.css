@@ -118,9 +118,10 @@
     --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
 
     /* Animation Keyframes */
-    --animate-fade-in: fade-in 0.3s var(--ease-default);
-    --animate-fade-up: fade-up 0.4s var(--ease-fluid);
+    --animate-fade-in: fade-in 0.3s var(--ease-default) both;
+    --animate-fade-up: fade-up 0.4s var(--ease-fluid) both;
     --animate-pulse-subtle: pulse-subtle 2s var(--ease-default) infinite;
+    --animate-spin: spin 1s linear infinite;
 
     @keyframes fade-in {
         from {
@@ -149,6 +150,15 @@
         }
         50% {
             opacity: 0.7;
+        }
+    }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
         }
     }
 
@@ -273,5 +283,30 @@
     .scroll-reveal.revealed {
         opacity: 1;
         transform: translateY(0);
+    }
+
+    /* Interactive card — subtle lift on hover */
+    .interactive-card {
+        transition: transform 200ms var(--ease-snappy),
+            box-shadow 200ms var(--ease-snappy);
+    }
+
+    .interactive-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .interactive-card:active {
+        transform: translateY(0);
+    }
+
+    /* Focus ring — consistent across all interactive elements */
+    .focus-ring {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+    }
+
+    .focus-ring:focus-visible {
+        outline-color: var(--color-accent);
     }
 }
