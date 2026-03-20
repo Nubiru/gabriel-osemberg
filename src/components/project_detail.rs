@@ -99,10 +99,12 @@ pub fn ProjectDetailPage() -> impl IntoView {
                                         // Hero section
                                         <ScrollReveal>
                                             <div class="mt-8">
+                                                // Accent gradient line
+                                                <div class="h-1 w-16 rounded-full bg-accent mb-6"></div>
                                                 <h1 class="font-display text-4xl sm:text-5xl font-bold tracking-tight text-text-primary">
                                                     {name}
                                                 </h1>
-                                                <p class="mt-3 text-lg text-text-secondary leading-relaxed">
+                                                <p class="mt-4 text-xl text-text-secondary leading-relaxed max-w-2xl">
                                                     {tagline}
                                                 </p>
                                             </div>
@@ -113,7 +115,7 @@ pub fn ProjectDetailPage() -> impl IntoView {
                                             <MetricsDashboard project_id=project_id/>
                                         </ScrollReveal>
 
-                                                // Tech stack badges (normalized from TechTag, fallback to comma-split)
+                                        // Tech stack badges (normalized from TechTag, fallback to comma-split)
                                         <ScrollReveal delay=200>
                                             <div class="mt-6 flex flex-wrap gap-2">
                                                 {

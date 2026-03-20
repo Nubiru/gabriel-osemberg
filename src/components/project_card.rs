@@ -20,9 +20,12 @@ pub fn ProjectCard(project: Project) -> impl IntoView {
     let live_url = project.live_url;
     let has_links = repo_url.is_some() || live_url.is_some();
 
+    let cta_href = href.clone();
+
     view! {
-        <article class="bg-surface-raised border border-border-subtle rounded-xl p-6
-                        hover:border-accent/50 hover:shadow-md transition-all duration-200">
+        <article class="group bg-surface-raised border border-border-subtle rounded-xl p-6
+                        hover:border-accent/50 hover:shadow-md transition-all duration-200
+                        flex flex-col">
             // Project name as accessible link
             <h3 class="font-display text-lg font-semibold">
                 <a
@@ -49,22 +52,49 @@ pub fn ProjectCard(project: Project) -> impl IntoView {
                     .collect_view()}
             </div>
 
-            // External links — only rendered if present
-            {has_links
-                .then(|| {
-                    view! {
-                        <div class="mt-4 flex flex-wrap gap-4">
-                            {repo_url
-                                .map(|url| {
-                                    view! { <ExternalLink href=url label="Source Code".to_string()/> }
-                                })}
-                            {live_url
-                                .map(|url| {
-                                    view! { <ExternalLink href=url label="Live Site".to_string()/> }
-                                })}
-                        </div>
-                    }
-                })}
+            // Spacer to push CTA to bottom
+            <div class="flex-1"></div>
+
+            // View case study CTA + external links
+            <div class="mt-6 flex items-center justify-between">
+                <a
+                    href=cta_href
+                    class="inline-flex items-center gap-1 text-sm font-medium
+                           text-accent hover:text-accent-hover transition-colors
+                           group-hover:gap-2"
+                >
+                    "View case study"
+                    <svg
+                        class="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        aria-hidden="true"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M13 7l5 5m0 0l-5 5m5-5H6"
+                        />
+                    </svg>
+                </a>
+                {has_links
+                    .then(|| {
+                        view! {
+                            <div class="flex gap-3">
+                                {repo_url
+                                    .map(|url| {
+                                        view! { <ExternalLink href=url label="Code".to_string()/> }
+                                    })}
+                                {live_url
+                                    .map(|url| {
+                                        view! { <ExternalLink href=url label="Live".to_string()/> }
+                                    })}
+                            </div>
+                        }
+                    })}
+            </div>
         </article>
     }
 }
