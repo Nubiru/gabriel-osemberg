@@ -309,4 +309,67 @@
     .focus-ring:focus-visible {
         outline-color: var(--color-accent);
     }
+
+    /* View Transitions API — page-level navigation animations.
+       Works in Chrome 111+, Edge 111+, Safari 18+, Firefox 144+.
+       Gracefully ignored in browsers without support. */
+    @view-transition {
+        navigation: auto;
+    }
+
+    ::view-transition-old(root) {
+        animation: 200ms var(--ease-snappy) both page-fade-out;
+    }
+
+    ::view-transition-new(root) {
+        animation: 200ms var(--ease-snappy) both page-fade-in;
+    }
+
+    @keyframes page-fade-out {
+        from {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateY(-4px);
+        }
+    }
+
+    @keyframes page-fade-in {
+        from {
+            opacity: 0;
+            transform: translateY(4px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Respect prefers-reduced-motion for all animations */
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+
+        ::view-transition-old(root),
+        ::view-transition-new(root) {
+            animation: none;
+        }
+    }
+
+    /* Prose-like content styling for rendered markdown */
+    .prose-content p {
+        margin-bottom: 1rem;
+    }
+
+    .prose-content strong {
+        color: var(--color-text-primary);
+        font-weight: 500;
+    }
 }
