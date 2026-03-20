@@ -85,11 +85,11 @@ pub fn ProjectCard(project: Project) -> impl IntoView {
                             <div class="flex gap-3">
                                 {repo_url
                                     .map(|url| {
-                                        view! { <ExternalLink href=url label="Code".to_string()/> }
+                                        view! { <ExternalLink href=url label="Code"/> }
                                     })}
                                 {live_url
                                     .map(|url| {
-                                        view! { <ExternalLink href=url label="Live".to_string()/> }
+                                        view! { <ExternalLink href=url label="Live"/> }
                                     })}
                             </div>
                         }

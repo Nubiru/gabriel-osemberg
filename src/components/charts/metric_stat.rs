@@ -15,9 +15,11 @@ pub fn MetricStat(
     #[prop(into)]
     label: String,
 ) -> impl IntoView {
+    let aria = format!("{value} {label}");
+
     view! {
-        <div class="flex flex-col items-center text-center">
-            <span class="font-display text-3xl font-bold text-text-primary">{value}</span>
+        <div class="flex flex-col items-center text-center" role="group" aria-label=aria>
+            <span class="font-display text-3xl font-bold text-text-primary" aria-hidden="true">{value}</span>
             <span class="text-sm text-text-secondary mt-1">{label}</span>
         </div>
     }

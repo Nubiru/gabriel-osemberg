@@ -16,8 +16,9 @@ pub fn FrameworkDiagram() -> impl IntoView {
     let streams = ["SHOWCASE", "DATA", "DESIGN", "IDENTITY", "INFRA"];
 
     view! {
-        <div class="w-full max-w-2xl mx-auto" role="img" aria-label="MEGA multi-agent collaboration framework diagram">
-            <svg viewBox="0 0 600 380" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+        <div class="w-full max-w-2xl mx-auto">
+            <svg viewBox="0 0 600 380" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg"
+                role="img" aria-label="MEGA multi-agent collaboration framework diagram">
                 // --- Connection lines (drawn first, behind nodes) ---
 
                 // Gabriel → MEGA

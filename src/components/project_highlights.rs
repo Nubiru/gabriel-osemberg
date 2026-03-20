@@ -61,11 +61,15 @@ pub fn ProjectHighlights() -> impl IntoView {
                                 let languages = data.languages_count.to_string();
 
                                 view! {
-                                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10 py-5 px-4 rounded-xl bg-surface-raised border border-border-subtle">
-                                        <MetricStat value=loc label="Total Lines of Code".to_string()/>
-                                        <MetricStat value=tests label="Total Tests".to_string()/>
-                                        <MetricStat value=projects label="Projects".to_string()/>
-                                        <MetricStat value=languages label="Languages".to_string()/>
+                                    <div
+                                        class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10 py-5 px-4 rounded-xl bg-surface-raised border border-border-subtle"
+                                        role="region"
+                                        aria-label="Portfolio statistics"
+                                    >
+                                        <MetricStat value=loc label="Total Lines of Code"/>
+                                        <MetricStat value=tests label="Total Tests"/>
+                                        <MetricStat value=projects label="Projects"/>
+                                        <MetricStat value=languages label="Languages"/>
                                     </div>
                                 }
                                     .into_any()

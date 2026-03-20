@@ -191,13 +191,13 @@ pub fn ProjectDetailPage() -> impl IntoView {
                                                             {repo_url
                                                                 .map(|url| {
                                                                     view! {
-                                                                        <ExternalLink href=url label="Source Code".to_string()/>
+                                                                        <ExternalLink href=url label="Source Code"/>
                                                                     }
                                                                 })}
                                                             {live_url
                                                                 .map(|url| {
                                                                     view! {
-                                                                        <ExternalLink href=url label="Live Site".to_string()/>
+                                                                        <ExternalLink href=url label="Live Site"/>
                                                                     }
                                                                 })}
                                                         </div>
